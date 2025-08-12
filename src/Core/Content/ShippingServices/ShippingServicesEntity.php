@@ -2,6 +2,7 @@
 
 namespace PostLabelCenter\Core\Content\ShippingServices;
 
+use DateTimeInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopware\Core\System\Country\CountryCollection;
@@ -17,15 +18,8 @@ class ShippingServicesEntity extends Entity
     protected string $salesChannelId;
     protected ?CountryCollection $countries = null;
 
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $updatedAt;
+    protected ?DateTimeInterface $createdAt;
+    protected ?DateTimeInterface $updatedAt;
 
     /**
      * @return string

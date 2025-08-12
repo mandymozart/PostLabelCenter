@@ -3,7 +3,7 @@
   "description": "Post Label Center",
   "type": "shopware-platform-plugin",
   "license": "MIT",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "autoload": {
     "psr-4": {
       "PostLabelCenter\\": "src/"
@@ -20,6 +20,6 @@
     "secure-http": false
   },
   "require": {
-    "shopware/core": "^6.6"
+    "shopware/core": "^6.7"
   }
 }
