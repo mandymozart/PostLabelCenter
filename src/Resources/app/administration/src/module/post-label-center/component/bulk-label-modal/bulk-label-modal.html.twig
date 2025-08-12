@@ -6,8 +6,7 @@
             @modal-close="$emit('modal-close')"
     >
         {% block plc_bulk_label__modal_body %}
-            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
-            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <mt-loader v-if="isLoading"/>
             <template v-else>
                 <shipping-label-create-modal
                         class="plc-shipping-label-modal"
@@ -46,34 +45,25 @@
                         </template>
 
                         <template #column-savedLabel="{ item }">
-                            <div v-if="feature.isActive('v6.6.0.0')">
-                                <mt-icon v-if="bulkOrderData && findBulkOrder(item.id)"
-                                         @modal-save="checkExistingLabelData(item.id)"
-                                         name="regular-checkmark-xs" small/>
-                                <mt-icon v-else name="regular-times-xs" small/>
-                            </div>
-                            <div v-else>
-                                <sw-icon v-if="bulkOrderData && findBulkOrder(item.id)"
-                                         @modal-save="checkExistingLabelData(item.id)"
-                                         name="regular-checkmark-xs" small/>
-                                <sw-icon v-else name="regular-times-xs" small/>
-                            </div>
-
+                            <mt-icon v-if="bulkOrderData && findBulkOrder(item.id)"
+                                     color="#37d046"
+                                     name="regular-checkmark-xs">
+                            </mt-icon>
+                            <mt-icon v-else
+                                     color="#de294c"
+                                     name="regular-times-xs">
+                            </mt-icon>
                         </template>
 
                         <template #column-customsInformation="{ item }">
-                            <div v-if="feature.isActive('v6.6.0.0')">
-                                <mt-icon v-if="bulkOrderData && checkCustomsData(item.id)"
-                                         @modal-save="checkCustomsData(item.id)"
-                                         name="regular-checkmark-xs" small/>
-                                <mt-icon v-else name="regular-times-xs" small/>
-                            </div>
-                            <div v-else>
-                                <sw-icon v-if="bulkOrderData && checkCustomsData(item.id)"
-                                         @modal-save="checkCustomsData(item.id)"
-                                         name="regular-checkmark-xs" small/>
-                                <sw-icon v-else name="regular-times-xs" small/>
-                            </div>
+                            <mt-icon v-if="checkCustomsData(item.id)"
+                                     color="#37d046"
+                                     name="regular-checkmark-xs">
+                            </mt-icon>
+                            <mt-icon v-else
+                                     color="#de294c"
+                                     name="regular-times-xs">
+                            </mt-icon>
 
                         </template>
 

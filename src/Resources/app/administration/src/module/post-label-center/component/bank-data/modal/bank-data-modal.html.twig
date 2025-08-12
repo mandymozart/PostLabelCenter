@@ -6,8 +6,7 @@
             @modal-close="$emit('modal-close')"
     >
         {% block plc_return_reason__modal_body %}
-            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
-            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <mt-loader v-if="isLoading"/>
             <template v-else>
                 <sw-text-field
                         class="plc-bank-data-modal_displayName"

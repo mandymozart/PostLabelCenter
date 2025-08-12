@@ -7,14 +7,8 @@
                     <h2>
                         {% block plc_return_reasons_list_smart_bar_header_title_text %}
                             {{ $tc('sw-settings.index.title') }}
-                            <mt-icon v-if="feature.isActive('v6.6.0.0')"
-                                     name="regular-chevron-right-xs"
-                                     small
-                            />
-                            <sw-icon v-else
-                                     name="regular-chevron-right-xs"
-                                     small
-                            />
+                            <mt-icon name="regular-plus-xxs"
+                                     @click="$emit('add-return-reason')"></mt-icon>
                             {{ $tc('plc.returnReasons.list.title') }}
                         {% endblock %}
                     </h2>

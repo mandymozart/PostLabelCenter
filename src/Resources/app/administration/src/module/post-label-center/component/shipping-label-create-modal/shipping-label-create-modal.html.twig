@@ -8,8 +8,7 @@
             @modal-close="$emit('modal-close')"
     >
         {% block plc_shipping_label__modal_body %}
-            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
-            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <mt-loader v-if="isLoading"/>
             <div v-else>
                 <template>
                     <sw-tabs position-identifier="shipping-label-create-modal">

@@ -1,7 +1,6 @@
 {% block plc_order_return_tab %}
     <div class="plc-order-return">
-        <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"></mt-loader>
-        <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+        <mt-loader v-if="isLoading"></mt-loader>
 
         <sw-card position-identifier="order-return-tab" :title="$tc('plc.order.page.returnDataTitle')"
                  class="order-return-card" v-else>
