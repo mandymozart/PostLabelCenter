@@ -2,6 +2,7 @@
 
 namespace PostLabelCenter\Core\Content\BankData;
 
+use DateTimeInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -9,20 +10,12 @@ class BankDataEntity extends Entity
 {
     use EntityIdTrait;
 
-    protected $displayName;
-    protected $accountHolder;
-    protected $bic;
-    protected $iban;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $updatedAt;
+    protected string $displayName;
+    protected string $accountHolder;
+    protected string $bic;
+    protected string $iban;
+    protected ?DateTimeInterface $createdAt;
+    protected ?DateTimeInterface $updatedAt;
 
     /**
      * @return mixed

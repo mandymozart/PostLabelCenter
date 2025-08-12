@@ -2,6 +2,7 @@
 
 namespace PostLabelCenter\Core\Content\OrderReturnData;
 
+use DateTimeInterface;
 use PostLabelCenter\Core\Content\ReturnReasons\ReturnReasonsEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
@@ -19,15 +20,8 @@ class OrderReturnDataEntity extends Entity
     protected ?OrderEntity $order;
     protected ?ReturnReasonsEntity $returnReason;
 
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $updatedAt;
+    protected ?DateTimeInterface $createdAt;
+    protected ?DateTimeInterface $updatedAt;
 
     /**
      * @return string

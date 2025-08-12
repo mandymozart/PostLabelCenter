@@ -2,6 +2,7 @@
 
 namespace PostLabelCenter\Core\Content\AddressData;
 
+use DateTimeInterface;
 use PostLabelCenter\Core\Content\BankData\BankDataEntity;
 use Shopware\Core\Content\Product\Aggregate\ProductManufacturer\ProductManufacturerEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
@@ -37,15 +38,8 @@ class AddressDataEntity extends Entity
     protected ?SalesChannelEntity $salesChannel;
     protected ?SalutationEntity $salutation;
 
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $updatedAt;
+    protected ?DateTimeInterface $createdAt;
+    protected ?DateTimeInterface $updatedAt;
 
     /**
      * @return string

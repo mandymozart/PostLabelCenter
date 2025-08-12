@@ -19,15 +19,8 @@ class DailyStatementsEntity extends Entity
     protected SalesChannelEntity $salesChannel;
     protected string $pdfData;
 
-    /**
-     * @var DateTimeInterface
-     */
-    protected $createdAt;
-
-    /**
-     * @var DateTimeInterface
-     */
-    protected $updatedAt;
+    protected ?DateTimeInterface $createdAt;
+    protected ?DateTimeInterface $updatedAt;
 
     /**
      * @return string

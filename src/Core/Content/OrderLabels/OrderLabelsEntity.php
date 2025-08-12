@@ -2,6 +2,7 @@
 
 namespace PostLabelCenter\Core\Content\OrderLabels;
 
+use DateTimeInterface;
 use PostLabelCenter\Core\Content\BankData\BankDataEntity;
 use Shopware\Core\Content\Product\Aggregate\ProductManufacturer\ProductManufacturerEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
@@ -22,15 +23,8 @@ class OrderLabelsEntity extends Entity
     protected bool $shippingDocuments;
     protected string $orderId;
 
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    protected $updatedAt;
+    protected ?DateTimeInterface $createdAt;
+    protected ?DateTimeInterface $updatedAt;
 
     /**
      * @return string
