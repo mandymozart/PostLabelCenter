@@ -3,7 +3,7 @@
   "description": "Post Label Center",
   "type": "shopware-platform-plugin",
   "license": "MIT",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "autoload": {
     "psr-4": {
       "PostLabelCenter\\": "src/"
@@ -14,6 +14,9 @@
     "label": {
       "de-DE": "Post-Labelcenter Plugin",
       "en-GB": "Post-Labelcenter Plugin"
+    },
+    "administration": {
+      "entryFilePath": "src/Resources/app/administration/src/main.js"
     }
   },
   "config": {
