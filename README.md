@@ -32,6 +32,8 @@ Labelgenerierung auswirken können.
 
 ## Changelog
 
+- 2.0.14
+    - patch strict types for shopware 6.7
 - 2.0.8
     - Bulk-Modal Handling Optimizations, other bugfixes
 - 2.0.7
