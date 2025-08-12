@@ -24,7 +24,12 @@ import './extension/order-return-tab';
 
 const {Module} = Shopware;
 
-Module.register('post-label-center', {
+console.log('🔧 PLC: Attempting to register post-label-center module...');
+console.log('🔧 PLC: Shopware.Module available:', !!Module);
+console.log('🔧 PLC: Current registered modules before PLC:', Array.from(Shopware.Module.getModuleRegistry().keys()).length);
+
+try {
+    Module.register('post-label-center', {
     type: 'plugin',
     name: 'plc',
     title: 'plc.menu.mainMenuItemmenu',
@@ -51,4 +56,9 @@ Module.register('post-label-center', {
         }
         next(currentRoute);
     },
-});
+    });
+    console.log('✅ PLC: post-label-center module registered successfully!');
+    console.log('✅ PLC: Total modules after PLC registration:', Array.from(Shopware.Module.getModuleRegistry().keys()).length);
+} catch (error) {
+    console.error('❌ PLC: Failed to register post-label-center module:', error);
+}

@@ -6,7 +6,9 @@ import './style.scss';
 const {Component, Mixin} = Shopware;
 const {Criteria} = Shopware.Data;
 
-Component.register('bulk-label-modal', {
+console.log('🔧 Attempting to register bulk-label-modal component...');
+try {
+    Component.register('bulk-label-modal', {
     template,
 
     snippets: {
@@ -112,6 +114,7 @@ Component.register('bulk-label-modal', {
 
     methods: {
         createdComponent() {
+            console.log('🚀 PLC: bulk-label-modal component created successfully!', this);
             this.isLoading = true;
             this.activeOrderList = this.orderList;
             this.syncService = Shopware.Service('syncService');
@@ -319,4 +322,8 @@ Component.register('bulk-label-modal', {
             this.isLoading = false;
         }
     }
-});
+    });
+    console.log('✅ bulk-label-modal component registered successfully!');
+} catch (error) {
+    console.error('❌ Failed to register bulk-label-modal component:', error);
+}
