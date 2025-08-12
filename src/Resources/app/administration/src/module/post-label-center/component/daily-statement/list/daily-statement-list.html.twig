@@ -1,0 +1,170 @@
+{% block plc_daily_statement_list %}
+    <sw-page class="plc-daily-statement-list">
+
+        {% block plc_daily_statement_list_smart_bar_header %}
+            <template #smart-bar-header>
+                {% block plc_daily_statement_list_smart_bar_header_title %}
+                    <h2>
+                        {% block plc_daily_statement_list_smart_bar_header_title_text %}
+                            {{ $tc('sw-settings.index.title') }}
+                            <mt-icon v-if="feature.isActive('v6.6.0.0')"
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            <sw-icon v-else
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            {{ $tc('plc.dailyStatement.list.title') }}
+                        {% endblock %}
+                    </h2>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_daily_statement_language_switch %}
+            <template #language-switch>
+                <sw-language-switch @on-change="onChangeLanguage"/>
+            </template>
+        {% endblock %}
+
+        {% block plc_daily_statement_list_actions_save %}
+            <template #smart-bar-actions>
+                <sw-button
+                        @click="openDailyStatementModal()"
+                        variant="primary">
+                    {{ $tc('plc.dailyStatement.list.create') }}
+                </sw-button>
+
+                <daily-statement-modal
+                        class="plc-daily-statement-modal"
+                        :daily-statement-entity="dailyStatementModal"
+                        v-if="dailyStatementModal"
+                        @modal-save="saveDailyStatementModal"
+                        @modal-close="closeDailyStatementModal">
+                </daily-statement-modal>
+            </template>
+        {% endblock %}
+
+        {% block plc_daily_statement_list_content %}
+            <template #content>
+                {% block plc_daily_statement_list_content_listing %}
+                    <sw-entity-listing
+                            :columns="dailyStatementColumns"
+                            :full-page="true"
+                            :items="dailyStatementEntries"
+                            :show-settings="true"
+                            :show-selection="false"
+                            :show-actions="true"
+                            :sort-by="sortBy"
+                            :sort-direction="sortDirection"
+                            :is-loading="isLoading"
+                            :allow-column-edit="true"
+                            :disable-data-fetching="true"
+                            :repository="dailyStatementRepository"
+                            :page="page"
+                            @page-change="onPageChange"
+                            @update-records="updateTotal">
+
+                        {% block plc_daily_statement_list_column_pdf %}
+                            <template #column-pdfData="{ item }">
+                                <a @click="getLabelPdf(item.pdfData)" target="_blank">
+                                    Herunterladen
+                                </a>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_daily_statement_list_column_plcDateAdded %}
+                            <template #column-plcDateAdded="{ item }">
+                                {{ formatDate(item.plcDateAdded) }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_daily_statement_list_column_plcCreatedOn %}
+                            <template #column-plcCreatedOn="{ item }">
+                                {{ formatDate(item.plcCreatedOn) }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_daily_statement_list_column_salesChannel %}
+                            <template #column-salesChannel="{ item }">
+                                {{ item.salesChannel.translated ? item.salesChannel.translated.name : item.salesChannel.name }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_daily_statement_list_context_menu %}
+                            <template #actions="{ item }">
+                                <sw-context-menu-item
+                                        variant="danger"
+                                        class="plc-daily-statement-list__context-menu-edit-delete"
+                                        @click="onDelete(item.id)"
+                                >
+                                    {{ $tc('plc.general.context-menu.delete') }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_daily_statement_list_modal %}
+                            <template #action-modals="{ item }">
+                                <sw-modal
+                                        v-if="showDeleteModal === item.id"
+                                        :title="$tc('global.default.warning')"
+                                        variant="small"
+                                        @modal-close="onCloseDeleteModal"
+                                >
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_confirm_delete_text %}
+                                        <p class="sw-settings-number-range-list__confirm-delete-text">
+                                            {{ $tc('plc.modal.dailyStatement.textDeleteConfirm', 0, { name: item.displayName }) }}
+                                        </p>
+                                    {% endblock %}
+
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_footer %}
+                                        <template #modal-footer>
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_cancel %}
+                                                <sw-button
+                                                        size="small"
+                                                        @click="onCloseDeleteModal"
+                                                >
+                                                    {{ $tc('plc.modal.buttonCancel') }}
+                                                </sw-button>
+                                            {% endblock %}
+
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_confirm %}
+                                                <sw-button
+                                                        variant="danger"
+                                                        size="small"
+                                                        @click="onConfirmDelete(item.id)"
+                                                >
+                                                    {{ $tc('plc.modal.buttonDelete') }}
+                                                </sw-button>
+                                            {% endblock %}
+                                        </template>
+                                    {% endblock %}
+                                </sw-modal>
+                            </template>
+                        {% endblock %}
+                    </sw-entity-listing>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        {% block plc_daily_statement_list_sidebar %}
+            <template #sidebar>
+                <sw-sidebar class="plc-daily-statement-list__sidebar">
+                    {% block plc_daily_statement_list_sidebar_refresh %}
+                        <sw-sidebar-item
+                                icon="regular-undo"
+                                :title="$tc('plc.general.titleSidebarItemRefresh')"
+                                @click="onRefresh"
+                        />
+                    {% endblock %}
+                </sw-sidebar>
+            </template>
+        {% endblock %}
+    </sw-page>
+{% endblock %}

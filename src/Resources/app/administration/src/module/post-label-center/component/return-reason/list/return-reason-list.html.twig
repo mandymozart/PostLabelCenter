@@ -1,0 +1,168 @@
+{% block plc_return_reasons_list %}
+    <sw-page class="plc-return-reasons-list">
+
+        {% block plc_return_reasons_list_smart_bar_header %}
+            <template #smart-bar-header>
+                {% block plc_return_reasons_list_smart_bar_header_title %}
+                    <h2>
+                        {% block plc_return_reasons_list_smart_bar_header_title_text %}
+                            {{ $tc('sw-settings.index.title') }}
+                            <mt-icon v-if="feature.isActive('v6.6.0.0')"
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            <sw-icon v-else
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            {{ $tc('plc.returnReasons.list.title') }}
+                        {% endblock %}
+                    </h2>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_return_reasons_language_switch %}
+            <template #language-switch>
+                <sw-language-switch @on-change="onChangeLanguage"/>
+            </template>
+        {% endblock %}
+
+        {% block plc_return_reasons_list_actions_save %}
+            <template #smart-bar-actions>
+                <sw-button
+                        @click="openReturnReasonsModal(true)"
+                        variant="primary">
+                    {{ $tc('plc.returnReasons.list.create') }}
+                </sw-button>
+
+                <return-reason-modal
+                        class="plc-return-reasons-modal"
+                        v-if="returnReasonsModal"
+                        :return-reason-entity="returnReasonsModal"
+                        @modal-save="saveReturnReasonModal"
+                        @modal-close="closeReturnReasonsModal">
+                </return-reason-modal>
+            </template>
+        {% endblock %}
+
+        {% block plc_return_reasons_list_content %}
+            <template #content>
+                {% block plc_return_reasons_list_content_listing %}
+                    <sw-entity-listing
+                            :columns="returnReasonColumns"
+                            :full-page="true"
+                            :items="returnReasonEntries"
+                            :show-settings="true"
+                            :show-selection="false"
+                            :show-actions="true"
+                            :sort-by="sortBy"
+                            :sort-direction="sortDirection"
+                            :is-loading="isLoading"
+                            :allow-column-edit="true"
+                            :disable-data-fetching="true"
+                            :repository="returnReasonsRepository"
+                            :page="page"
+                            @page-change="onPageChange"
+                            @update-records="updateTotal">
+
+                        {% block plc_return_reasons_list_column_name %}
+                            <template #column-name="{ item, inlineEdit }">
+                                <sw-context-menu-item
+                                        @click="openReturnReasonsModal(item)"
+                                >
+                                    {{ item.translated ? item.translated.name : item.name }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_return_reasons_list_column_technical_name %}
+                            <template #column-technicalName="{ item }">
+                                {{ item.technicalName }}
+                            </template>
+                        {% endblock %}
+
+
+                        {% block plc_return_reasons_list_context_menu %}
+                            <template #actions="{ item }">
+                                <sw-context-menu-item
+                                        class="plc-return-reasons-list__context-menu-edit-action"
+                                        @click="openReturnReasonsModal(item)"
+                                >
+                                    {{ $tc('plc.general.context-menu.edit') }}
+                                </sw-context-menu-item>
+
+                                <sw-context-menu-item
+                                        variant="danger"
+                                        class="plc-return-reasons-list__context-menu-edit-delete"
+                                        @click="onDelete(item.id)"
+                                >
+                                    {{ $tc('plc.general.context-menu.delete') }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_return_reasons_list_modal %}
+                            <template #action-modals="{ item }">
+                                <sw-modal
+                                        v-if="showDeleteModal === item.id"
+                                        :title="$tc('global.default.warning')"
+                                        variant="small"
+                                        @modal-close="onCloseDeleteModal"
+                                >
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_confirm_delete_text %}
+                                        <p class="sw-settings-number-range-list__confirm-delete-text">
+                                            {{ $tc('plc.modal.returnReason.textDeleteConfirm', 0, { name: item.translated.name }) }}
+                                        </p>
+                                    {% endblock %}
+
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_footer %}
+                                        <template #modal-footer>
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_cancel %}
+                                                <sw-button
+                                                        size="small"
+                                                        @click="onCloseDeleteModal"
+                                                >
+                                                    {{ $tc('plc.modal.buttonCancel') }}
+                                                </sw-button>
+                                            {% endblock %}
+
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_confirm %}
+                                                <sw-button
+                                                        variant="danger"
+                                                        size="small"
+                                                        @click="onConfirmDelete(item.id)"
+                                                >
+                                                    {{ $tc('plc.modal.buttonDelete') }}
+                                                </sw-button>
+                                            {% endblock %}
+                                        </template>
+                                    {% endblock %}
+                                </sw-modal>
+                            </template>
+                        {% endblock %}
+                    </sw-entity-listing>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        {% block plc_return_reasons_list_sidebar %}
+            <template #sidebar>
+                <sw-sidebar class="plc-return-reasons-list__sidebar">
+                    {% block plc_return_reasons_list_sidebar_refresh %}
+                        <sw-sidebar-item
+                                icon="regular-undo"
+                                :title="$tc('plc.general.titleSidebarItemRefresh')"
+                                @click="onRefresh"
+                        />
+                    {% endblock %}
+                </sw-sidebar>
+            </template>
+        {% endblock %}
+    </sw-page>
+{% endblock %}

@@ -1,0 +1,48 @@
+{
+  "plc": {
+    "wunschfiliale": {
+      "enterZipcode": "PLZ eingeben...",
+      "search": "Suchen",
+      "chooseStation": "Abholort auswählen",
+      "noCustomerDataFound": "Fehler beim Ermitteln der Kundendaten.",
+      "noDataProvided": "Fehler beim Ermitteln der Standortdaten.",
+      "errorCreatingAddress": "Fehler beim Updaten der Adresse.",
+      "successMessage": "Wunsch-Abholort erfolgreich ausgewählt.",
+      "noBranchesFound": "Keine Abholstationen gefunden.",
+      "noBranchDataFound": "Fehler bei der Ermittlung der Abholstation-Daten.",
+      "zipCodeError": "Bitte eine gültige PLZ eingeben",
+      "phoneNumber" : "Telefonnummer ist nicht gesetzt",
+      "openingHours": "Öffnungszeiten"
+    },
+    "account": {
+      "returnOrder": "Bestellung zurücksenden"
+    },
+    "returnOrder": {
+      "title": "Rücksendung beantragen",
+      "cancel": "Abbrechen",
+      "send": "Bestätigen",
+      "reasonSelectPlaceholder": "Rückgabegrund auswählen...",
+      "reasonInputPlaceholder": "Rückgabegrund eingeben...",
+      "lineItem": {
+        "checkboxLabel": "Checkbox für die Auswahl der zu retournierenden Produkte",
+        "quantityLabel": "Checkbox für die Auswahl der zu retournierenden Menge"
+      },
+      "note": "Retoureninformationen",
+      "notePlaceholder": "Retoureninformationen hier eintragen...",
+      "quantity": "Menge auswählen...",
+      "quantityInfo": "Menge",
+      "productNumber": "Produktnummer",
+      "itemInfo": "Produkt",
+      "errorMissingData": "Fehler: Es wurden nicht alle Felder ausgewählt.",
+      "errorContactShop": "Fehler: Bitte kontaktieren Sie den Shopbetreiber",
+      "errorNoItemsSelected": "Fehler: Bitte wählen Sie Produkte zum Retournieren aus.",
+      "noDataFound" : "Keine Daten gefunden."
+    },
+    "error": {
+      "wrongBranchKey": "Bitte eine korrekte Adresse für die Abholstation/Abholfiliale auswählen.",
+      "noShippingMethods": "Keine Versandmethoden verfügbar, bitte überprüfen Sie ihre Produkte.",
+      "setNoWunschfiliale": "Für die aktuelle Versandart sind keine Abholstationen oder Postfilialen verfügbar.",
+      "setAddressNoWunschfiliale": "Lieferadresse stimmt nicht mit einer Wunschfiliale/-abholstation überein. Bitte wählen Sie einen Abholort aus."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{% block sw_settings_shipping_detail_custom_field_sets %}
+    <sw-card :title="$tc('plc.shippingServices.shippingMethod.headline')">
+        <sw-internal-link :router-link="{ name: 'plc.shipping.service.list'}"
+                          icon="regular-long-arrow-right" :inline="false" :disabled="false" :hideIcon="false">
+            {{ $tc('plc.shippingServices.shippingMethod.link') }}
+        </sw-internal-link>
+    </sw-card>
+
+    {% parent %}
+{% endblock %}

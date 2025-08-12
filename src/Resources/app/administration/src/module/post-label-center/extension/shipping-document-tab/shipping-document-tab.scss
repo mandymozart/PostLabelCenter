@@ -1,0 +1,41 @@
+.shipping-document-list {
+    max-width: 100%;
+
+    .sw-card__content {
+        .create-button-row {
+            align-self: center;
+            justify-self: start;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-top: 20px;
+        }
+
+        .documents-row {
+            grid-area: 1;
+
+            .documents-header-row {
+                font-weight: 700;
+            }
+
+            .sw-grid-row {
+                grid-template-columns: repeat(6, 175px);
+
+                .no-style {
+                    background: none;
+                    border: none;
+                }
+
+                .trashicon {
+                    color: red;
+                    cursor: pointer;
+                }
+
+                .grid-tracking-column {
+                    .sw-grid__cell-content {
+                        grid-auto-flow: row;
+                    }
+                }
+            }
+        }
+    }
+}

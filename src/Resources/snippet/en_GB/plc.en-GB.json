@@ -1,0 +1,48 @@
+{
+  "plc": {
+    "wunschfiliale": {
+      "enterZipcode": "Enter zip code...",
+      "search": "Search",
+      "chooseStation": "Select pickup location",
+      "noCustomerDataFound": "Error determining customer information.",
+      "noDataProvided": "Error getting location data.",
+      "errorCreatingAddress": "Error updating address.",
+      "successMessage": "Desired pickup location successfully selected.",
+      "noBranchesFound": "No pickup locations found.",
+      "noBranchDataFound": "Error determining pickup station data.",
+      "zipCodeError": "Please enter a valid zip code",
+      "phoneNumber": "Phone number is not set",
+      "openingHours": "opening hours"
+    },
+    "account": {
+      "returnOrder": "Return order"
+    },
+    "returnOrder": {
+      "title": "Request a return",
+      "cancel": "Cancel",
+      "send": "Confirm",
+      "reasonSelectPlaceholder": "Select return reason...",
+      "reasonInputPlaceholder": "Enter reason for return...",
+      "lineItem": {
+        "checkboxLabel": "Checkbox for selecting the products to be returned",
+        "quantityLabel": "Checkbox for selecting the quantity to be returned"
+      },
+      "note": "Returns information",
+      "notePlaceholder": "Enter return information here...",
+      "quantity": "Select quantity...",
+      "quantityInfo": "Crowd",
+      "productNumber": "Product number",
+      "itemInfo": "product",
+      "errorMissingData": "Error: Not all fields were selected.",
+      "errorContactShop": "Error: Please contact the shop operator",
+      "errorNoItemsSelected": "Error: Please select products to return.",
+      "noDataFound": "No data found."
+    },
+    "error": {
+      "wrongBranchKey": "Please select a correct address for the collection point/collection branch.",
+      "noShippingMethods": "No shipping methods available, please check your products.",
+      "setNoWunschfiliale": "There are no pick-up locations or post offices available for the current shipping method.",
+      "setAddressNoWunschfiliale": "Delivery address does not match a desired branch/pickup point. "
+    }
+  }
+}

@@ -1,0 +1,62 @@
+.plc-shipping-label-modal {
+  .shipping-label__select-labelType {
+    display: grid;
+    grid-template-columns: 75px 250px;
+    margin-bottom: 0;
+    align-items: center;
+
+    .sw-field__label {
+      margin-bottom: 0;
+      font-weight: 700;
+    }
+  }
+
+  .sw-tabs {
+    .sw-tabs__custom-content {
+      display: none;
+    }
+  }
+
+  .shipping-data-container, .sender-data-container, .customs-container{
+    .grid-wrapper{
+      .grid-headline{
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+      .grid-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 10px;
+        margin-bottom: 15px;
+        margin-top: 10px;
+        &.full-width{
+          grid-template-columns: 1fr;
+        }
+
+        .line-item-data-grid{
+          .is--inline-edit{
+            .sw-data-grid__cell--packageNumber,  .sw-data-grid__cell--customsOptions, .sw-data-grid__cell--countryOfOrigin, .sw-data-grid__cell--units{
+              .sw-data-grid__cell-content{
+                padding: 0;
+              }
+            }
+          }
+        }
+
+        .sw-field{
+          margin-bottom: 0;
+        }
+
+        .sw-data-grid{
+          .sw-data-grid__header{
+            .sw-data-grid__cell--header{
+              min-width: 150px!important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

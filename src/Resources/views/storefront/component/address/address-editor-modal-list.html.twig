@@ -1,0 +1,9 @@
+{% sw_extends '@Storefront/storefront/component/address/address-editor-modal-list.html.twig' %}
+
+{% block component_address_address_editor_modal_list_addresses %}
+    {% for address in addresses|filter(address => (address.customFields.postOfficeBranchKey is not defined or address.customFields.postOfficeBranchKey is null)) %}
+        {% block component_address_address_editor_modal_list_address %}
+            {{ parent() }}
+        {% endblock %}
+    {% endfor %}
+{% endblock %}

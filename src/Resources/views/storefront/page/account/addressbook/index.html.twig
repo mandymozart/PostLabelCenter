@@ -1,0 +1,22 @@
+{% sw_extends '@Storefront/storefront/page/account/addressbook/index.html.twig' %}
+
+{% block page_account_address_list %}
+    <div class="address-list">
+        <div class="h3">
+            {{ "account.addressListHeader"|trans|sw_sanitize }}
+        </div>
+        <div class="row">
+            {% for address in page.addresses|filter(address => (address.customFields.postOfficeBranchKey is not defined or address.customFields.postOfficeBranchKey is null)) %}
+                <div class="col-sm-6 card-col address-card">
+                    <div class="card other-address">
+                        <div class="card-body">
+                            {% block page_account_address_overview_body %}
+                                {{ parent() }}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

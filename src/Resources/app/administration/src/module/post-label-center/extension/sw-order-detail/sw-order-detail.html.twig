@@ -1,0 +1,15 @@
+{% block sw_order_detail_content_tabs_extension %}
+    {% parent %}
+
+    {% block plc_detail_tab %}
+        <sw-tabs-item :route="{name: 'plc.order.documents', params: { id: $route.params.id } }"
+                      :title="$tc('plc.order.tab.documentsTitle')">
+            {{ $tc('plc.order.tab.documentsTitle') }}
+        </sw-tabs-item>
+
+        <sw-tabs-item :route="{name: 'plc.order.returnData', params: { id: $route.params.id } }"
+                      :title="$tc('plc.order.tab.returnData')">
+            {{ $tc('plc.order.tab.returnData') }}
+        </sw-tabs-item>
+    {% endblock %}
+{% endblock %}

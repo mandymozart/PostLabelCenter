@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="PostLabelCenter\Controller\Storefront\ExampleController" public="true">
+            <argument type="service" id="plc_return_reasons.repository"/>
+            <argument type="service" id="plc_address_data.repository"/>
+            <argument type="service" id="PostLabelCenter\Services\GreenFieldService"/>
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="PostLabelCenter\Controller\Api\AddressDataController" public="true">
+            <argument type="service" id="plc_address_data.repository"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="PostLabelCenter\Controller\Api\BankDataController" public="true">
+            <argument type="service" id="plc_bank_data.repository"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="PostLabelCenter\Controller\Api\ReturnReasonController" public="true">
+            <argument type="service" id="plc_return_reasons.repository"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="PostLabelCenter\Controller\Api\ShippingServicesController" public="true">
+            <argument type="service" id="PostLabelCenter\Services\GreenFieldService"/>
+            <argument type="service" id="plc_shipping_services.repository"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="PostLabelCenter\Controller\Api\OrderLabelController" public="true">
+            <argument type="service" id="PostLabelCenter\Services\GreenFieldService"/>
+            <argument type="service" id="PostLabelCenter\Services\OrderShippingHelper"/>
+            <argument type="service" id="plc_daily_statements.repository"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="PostLabelCenter\Controller\Storefront\WunschfilialeController" public="true">
+            <argument type="service" id="PostLabelCenter\Services\GreenFieldService"/>
+            <argument type="service" id="customer_address.repository"/>
+            <argument type="service" id="customer.repository"/>
+            <argument type="service" id="country.repository"/>
+            <argument type="service" id="Symfony\Component\HttpKernel\KernelInterface"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="PostLabelCenter\Controller\Storefront\GreenFieldController" public="true">
+            <argument type="service" id="PostLabelCenter\Services\GreenFieldService"/>
+            <argument type="service" id="router"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+    </services>
+</container>

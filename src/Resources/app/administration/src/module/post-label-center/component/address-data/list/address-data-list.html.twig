@@ -1,0 +1,196 @@
+{% block plc_address_data_list %}
+    <sw-page class="plc-address-data-list">
+
+        {% block plc_address_data_list_smart_bar_header %}
+            <template #smart-bar-header>
+                {% block plc_address_data_list_smart_bar_header_title %}
+                    <h2>
+                        {% block plc_address_data_list_smart_bar_header_title_text %}
+                            {{ $tc('sw-settings.index.title') }}
+                            <mt-icon v-if="feature.isActive('v6.6.0.0')"
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            <sw-icon v-else
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            {{ $tc('plc.addressData.list.title') }}
+                        {% endblock %}
+                    </h2>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_address_data_language_switch %}
+            <template #language-switch>
+                <sw-language-switch @on-change="onChangeLanguage"/>
+            </template>
+        {% endblock %}
+
+        {% block plc_address_data_list_actions_save %}
+            <template #smart-bar-actions>
+                <sw-button
+                        @click="openAddressDataModal(true)"
+                        variant="primary">
+                    {{ $tc('plc.addressData.list.create') }}
+                </sw-button>
+
+                <address-data-modal
+                        class="plc-address-data-modal"
+                        :address-data-entity="addressDataModal"
+                        v-if="addressDataModal"
+                        @modal-save="saveAddressDataModal"
+                        @modal-close="closeAddressDataModal">
+                </address-data-modal>
+            </template>
+        {% endblock %}
+
+        {% block plc_address_data_list_content %}
+            <template #content>
+                {% block plc_address_data_list_content_listing %}
+                    <sw-entity-listing
+                            :columns="addressDataColumns"
+                            :full-page="true"
+                            :items="addressDataEntries"
+                            :show-settings="true"
+                            :show-selection="false"
+                            :show-actions="true"
+                            :sort-by="sortBy"
+                            :sort-direction="sortDirection"
+                            :is-loading="isLoading"
+                            :allow-column-edit="true"
+                            :disable-data-fetching="true"
+                            :repository="addressDataRepository"
+                            :page="page"
+                            @page-change="onPageChange"
+                            @update-records="updateTotal">
+
+                        {% block plc_address_data_list_column_display_name %}
+                            <template #column-displayName="{ item }">
+                                <sw-context-menu-item
+                                        @click="openAddressDataModal(item)"
+                                >
+                                    {{ item.translated ? item.translated.displayName : item.displayName }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_address_data_list_column_default_address %}
+                            <template #column-defaultAddress="{ item }">
+                                <sw-checkbox-field
+                                        type="checkbox"
+                                        disabled
+                                        v-model:value="item.defaultAddress"
+                                />
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_return_reasons_list_column_sales_channel %}
+                            <template #column-salesChannel="{ item }">
+                                {{ item.salesChannel.translated.name }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_address_data_list_column_addressType %}
+                            <template #column-addressType="{ item }">
+                                {{ getAddressTypeLabel(item.addressType) }}
+                            </template>
+                        {% endblock %}
+
+
+                        {% block plc_return_reasons_list_column_country %}
+                            <template #column-country="{ item, inlineEdit }">
+                                {{ item.country.name }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_return_reasons_list_column_bank_data %}
+                            <template #column-bankData="{ item, inlineEdit }">
+                                {{ item.bankData ? item.bankData.displayName : "" }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_address_data_list_context_menu %}
+                            <template #actions="{ item }">
+                                <sw-context-menu-item
+                                        class="plc-address-data-list__context-menu-edit-action"
+                                        @click="openAddressDataModal(item)"
+                                >
+                                    {{ $tc('plc.general.context-menu.edit') }}
+                                </sw-context-menu-item>
+
+                                <sw-context-menu-item
+                                        variant="danger"
+                                        class="plc-address-data-list__context-menu-edit-delete"
+                                        @click="onDelete(item.id)"
+                                >
+                                    {{ $tc('plc.general.context-menu.delete') }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_address_data_list_modal %}
+                            <template #action-modals="{ item }">
+                                <sw-modal
+                                        v-if="showDeleteModal === item.id"
+                                        :title="$tc('global.default.warning')"
+                                        variant="small"
+                                        @modal-close="onCloseDeleteModal"
+                                >
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_confirm_delete_text %}
+                                        <p class="sw-settings-number-range-list__confirm-delete-text">
+                                            {{ $tc('plc.modal.addressData.textDeleteConfirm', 0, { name: item.displayName }) }}
+                                        </p>
+                                    {% endblock %}
+
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_footer %}
+                                        <template #modal-footer>
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_cancel %}
+                                                <sw-button
+                                                        size="small"
+                                                        @click="onCloseDeleteModal"
+                                                >
+                                                    {{ $tc('plc.modal.buttonCancel') }}
+                                                </sw-button>
+                                            {% endblock %}
+
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_confirm %}
+                                                <sw-button
+                                                        variant="danger"
+                                                        size="small"
+                                                        @click="onConfirmDelete(item.id)"
+                                                >
+                                                    {{ $tc('plc.modal.buttonDelete') }}
+                                                </sw-button>
+                                            {% endblock %}
+                                        </template>
+                                    {% endblock %}
+                                </sw-modal>
+                            </template>
+                        {% endblock %}
+                    </sw-entity-listing>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        {% block plc_address_data_list_sidebar %}
+            <template #sidebar>
+                <sw-sidebar class="plc-address-data-list__sidebar">
+                    {% block plc_address_data_list_sidebar_refresh %}
+                        <sw-sidebar-item
+                                icon="regular-undo"
+                                :title="$tc('plc.general.titleSidebarItemRefresh')"
+                                @click="onRefresh"
+                        />
+                    {% endblock %}
+                </sw-sidebar>
+            </template>
+        {% endblock %}
+    </sw-page>
+{% endblock %}

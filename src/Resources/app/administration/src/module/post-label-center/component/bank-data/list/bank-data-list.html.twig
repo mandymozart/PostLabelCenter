@@ -1,0 +1,162 @@
+{% block plc_bank_data_list %}
+    <sw-page class="plc-bank-data-list">
+
+        {% block plc_bank_data_list_smart_bar_header %}
+            <template #smart-bar-header>
+                {% block plc_bank_data_list_smart_bar_header_title %}
+                    <h2>
+                        {% block plc_bank_data_list_smart_bar_header_title_text %}
+                            {{ $tc('sw-settings.index.title') }}
+                            <mt-icon v-if="feature.isActive('v6.6.0.0')"
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            <sw-icon v-else
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            {{ $tc('plc.bankData.list.title') }}
+                        {% endblock %}
+                    </h2>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_bank_data_language_switch %}
+            <template #language-switch>
+                <sw-language-switch @on-change="onChangeLanguage"/>
+            </template>
+        {% endblock %}
+
+        {% block plc_bank_data_list_actions_save %}
+            <template #smart-bar-actions>
+                <sw-button
+                        @click="openBankDataModal(true)"
+                        variant="primary">
+                    {{ $tc('plc.bankData.list.create') }}
+                </sw-button>
+
+
+                <bank-data-modal
+                        class="plc-bank-data-modal"
+                        v-if="bankDataModal"
+                        :bank-data-entity="bankDataModal"
+                        @modal-save="saveBankDataModal"
+                        @modal-close="closeBankDataModal">
+                </bank-data-modal>
+            </template>
+        {% endblock %}
+
+        {% block plc_bank_data_list_content %}
+            <template #content>
+                {% block plc_bank_data_list_content_listing %}
+                    <sw-entity-listing
+                            :columns="bankDataColumns"
+                            :full-page="true"
+                            :items="bankDataEntries"
+                            :show-settings="true"
+                            :show-selection="false"
+                            :show-actions="true"
+                            :sort-by="sortBy"
+                            :sort-direction="sortDirection"
+                            :is-loading="isLoading"
+                            :allow-column-edit="true"
+                            :disable-data-fetching="true"
+                            :repository="bankDataRepository"
+                            :page="page"
+                            @page-change="onPageChange"
+                            @update-records="updateTotal">
+
+                        {% block plc_bank_data_list_column_display_name %}
+                            <template #column-displayName="{ item }">
+                                <sw-context-menu-item
+                                        @click="openBankDataModal(item)"
+                                >
+                                    {{ item.translated ? item.translated.displayName : item.displayName }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_bank_data_list_context_menu %}
+                            <template #actions="{ item }">
+                                <sw-context-menu-item
+                                        class="plc-bank-data-list__context-menu-edit-action"
+                                        @click="openBankDataModal(item)"
+                                >
+                                    {{ $tc('plc.general.context-menu.edit') }}
+                                </sw-context-menu-item>
+
+                                <sw-context-menu-item
+                                        variant="danger"
+                                        class="plc-bank-data-list__context-menu-edit-delete"
+                                        @click="onDelete(item.id)"
+                                >
+                                    {{ $tc('plc.general.context-menu.delete') }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_bank_data_list_modal %}
+                            <template #action-modals="{ item }">
+                                <sw-modal
+                                        v-if="showDeleteModal === item.id"
+                                        :title="$tc('global.default.warning')"
+                                        variant="small"
+                                        @modal-close="onCloseDeleteModal"
+                                >
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_confirm_delete_text %}
+                                        <p class="sw-settings-number-range-list__confirm-delete-text">
+                                            {{ $tc('plc.modal.bankData.textDeleteConfirm', 0, { name: item.displayName }) }}
+                                        </p>
+                                    {% endblock %}
+
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_footer %}
+                                        <template #modal-footer>
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_cancel %}
+                                                <sw-button
+                                                        size="small"
+                                                        @click="onCloseDeleteModal"
+                                                >
+                                                    {{ $tc('plc.modal.buttonCancel') }}
+                                                </sw-button>
+                                            {% endblock %}
+
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_confirm %}
+                                                <sw-button
+                                                        variant="danger"
+                                                        size="small"
+                                                        @click="onConfirmDelete(item.id)"
+                                                >
+                                                    {{ $tc('plc.modal.buttonDelete') }}
+                                                </sw-button>
+                                            {% endblock %}
+                                        </template>
+                                    {% endblock %}
+                                </sw-modal>
+                            </template>
+                        {% endblock %}
+                    </sw-entity-listing>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        {% block plc_bank_data_list_sidebar %}
+            <template #sidebar>
+                <sw-sidebar class="plc-bank-data-list__sidebar">
+                    {% block plc_bank_data_list_sidebar_refresh %}
+                        <sw-sidebar-item
+                                icon="regular-undo"
+                                :title="$tc('plc.general.titleSidebarItemRefresh')"
+                                @click="onRefresh"
+                        />
+                    {% endblock %}
+                </sw-sidebar>
+            </template>
+        {% endblock %}
+    </sw-page>
+{% endblock %}

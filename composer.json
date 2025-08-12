@@ -1,0 +1,25 @@
+{
+  "name": "acl/post-label-center",
+  "description": "Post Label Center",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "version": "2.0.8",
+  "autoload": {
+    "psr-4": {
+      "PostLabelCenter\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "PostLabelCenter\\PostLabelCenter",
+    "label": {
+      "de-DE": "Post-Labelcenter Plugin",
+      "en-GB": "Post-Labelcenter Plugin"
+    }
+  },
+  "config": {
+    "secure-http": false
+  },
+  "require": {
+    "shopware/core": "^6.6"
+  }
+}

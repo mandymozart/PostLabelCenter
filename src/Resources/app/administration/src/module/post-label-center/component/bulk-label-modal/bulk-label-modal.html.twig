@@ -1,0 +1,171 @@
+{% block plc_bulk_label__modal %}
+    <sw-modal
+            class="plc-bulk-label-modal"
+            :title="$tc('plc.bulkLabel.modalTitle')"
+            variant="large"
+            @modal-close="$emit('modal-close')"
+    >
+        {% block plc_bulk_label__modal_body %}
+            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
+            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <template v-else>
+                <shipping-label-create-modal
+                        class="plc-shipping-label-modal"
+                        v-if="createLabelModal"
+                        :is-bulk="true"
+                        :order-id="currentOrderId"
+                        :bulk-order-data="bulkOrderData"
+                        @modal-save="saveCreateModal"
+                        @modal-close="closeCreateModal">
+                </shipping-label-create-modal>
+
+                <sw-entity-single-select
+                        v-model:value="newDeliveryState"
+                        entity="state_machine_state"
+                        :criteria="deliveryStateCriteria"
+                        :label="$tc('plc.bulkLabel.label.deliveryState')"
+                        :placeholder="$tc('plc.bulkLabel.placeholder.deliveryState')">
+                </sw-entity-single-select>
+
+                <template v-if="activeOrderList && activeOrderList.length > 0">
+                    <h3 class="datagrid-headline">{{ $tc('plc.bulkLabel.label.notCreatedLabels') }}</h3>
+
+                    <sw-data-grid
+                            :dataSource="activeOrderList"
+                            :columns="orderColumns"
+                            :showSelection="false"
+                            :compactMode="true"
+                            :show-actions="true"
+                    >
+                        <template #column-targetCountry="{ item }">
+                            <span>{{ item.deliveries.first().shippingOrderAddress.country.translated.name ?? item.deliveries.first().shippingOrderAddress.country.name }}</span>
+                        </template>
+
+                        <template #column-deliveryState="{ item }">
+                            <span>{{ item.deliveries.first().stateMachineState.translated.name ?? item.deliveries.first().stateMachineState.name }}</span>
+                        </template>
+
+                        <template #column-savedLabel="{ item }">
+                            <div v-if="feature.isActive('v6.6.0.0')">
+                                <mt-icon v-if="bulkOrderData && findBulkOrder(item.id)"
+                                         @modal-save="checkExistingLabelData(item.id)"
+                                         name="regular-checkmark-xs" small/>
+                                <mt-icon v-else name="regular-times-xs" small/>
+                            </div>
+                            <div v-else>
+                                <sw-icon v-if="bulkOrderData && findBulkOrder(item.id)"
+                                         @modal-save="checkExistingLabelData(item.id)"
+                                         name="regular-checkmark-xs" small/>
+                                <sw-icon v-else name="regular-times-xs" small/>
+                            </div>
+
+                        </template>
+
+                        <template #column-customsInformation="{ item }">
+                            <div v-if="feature.isActive('v6.6.0.0')">
+                                <mt-icon v-if="bulkOrderData && checkCustomsData(item.id)"
+                                         @modal-save="checkCustomsData(item.id)"
+                                         name="regular-checkmark-xs" small/>
+                                <mt-icon v-else name="regular-times-xs" small/>
+                            </div>
+                            <div v-else>
+                                <sw-icon v-if="bulkOrderData && checkCustomsData(item.id)"
+                                         @modal-save="checkCustomsData(item.id)"
+                                         name="regular-checkmark-xs" small/>
+                                <sw-icon v-else name="regular-times-xs" small/>
+                            </div>
+
+                        </template>
+
+                        <template #actions="{ item }">
+                            <sw-context-menu-item
+                                    class="plc-bank-data-list__context-menu-edit-action"
+                                    @click="openCreateModal(item.id)"
+                            >
+                                {{ $tc('plc.bulkLabel.context-menu.createLabel') }}
+                            </sw-context-menu-item>
+                        </template>
+                    </sw-data-grid>
+                </template>
+
+                <template v-if="successOrderList.length > 0">
+                    <h3 class="datagrid-headline">{{ $tc('plc.bulkLabel.label.createdLabels') }}</h3>
+
+                    <sw-data-grid
+                            :dataSource="successOrderList"
+                            :columns="orderColumns"
+                            :showSelection="false"
+                            :compactMode="false"
+                            :show-actions="false"
+                    >
+                        <template #column-targetCountry="{ item }">
+                            <span>{{ item.deliveries[0].shippingOrderAddress.country.translated.name ?? item.deliveries.first().shippingOrderAddress.country.name }}</span>
+                        </template>
+
+                        <template #column-deliveryState="{ item }">
+                            <span>{{ item.deliveries[0].stateMachineState.translated.name ?? item.deliveries[0].stateMachineState.name }}</span>
+                        </template>
+
+                        <template #column-customsInformation="{ item }">
+                            <div v-if="feature.isActive('v6.6.0.0')">
+                                <mt-icon
+                                        v-if="bulkOrderData && bulkOrderData[item.id] != null && bulkOrderData[item.id].customsData.packages != null"
+                                        name="regular-checkmark-xs" small/>
+                                <mt-icon v-else name="regular-times-xs" small/>
+                            </div>
+                            <div v-else>
+                                <sw-icon
+                                        v-if="bulkOrderData && bulkOrderData[item.id] != null && bulkOrderData[item.id].customsData.packages != null"
+                                        name="regular-checkmark-xs" small/>
+                                <sw-icon v-else name="regular-times-xs" small/>
+                            </div>
+
+                        </template>
+                    </sw-data-grid>
+                </template>
+
+            </template>
+
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_bulk_label__modal_footer %}
+            <template #modal-footer>
+                {% block plc_shipping_label__modal_footer_select_labeltype %}
+                    <sw-single-select
+                            v-if="!isLoading"
+                            class="shipping-label__select-labelType"
+                            :options="getLabelTypeOptions"
+                            v-model:value="selectedLabelType"
+                            size="small"
+                            :disabled="successOrders.length > 0"
+                            name="shipping-label-labelType"
+                            :label="$tc('plc.order.postLabels.label.labelType')"
+                            :placeholder="$tc('plc.order.postLabels.placeholder.labelType')"
+                            validation="required"
+                            required
+                    />
+                {% endblock %}
+
+                {% block plc_bulk_label__modal_footer_save_button %}
+                    <sw-button v-if="activeOrderList.length > 0"
+                               variant="primary"
+                               size="small"
+                               :disabled="isLoading"
+                               @click="createBulkData"
+                    >
+                        {{ $tc('plc.modal.generate') }}
+                    </sw-button>
+                    <sw-button v-if="successOrders.length > 0"
+                               variant="primary"
+                               size="small"
+                               :disabled="isLoading || !pdfDownload"
+                               @click="downloadZip"
+                    >
+                        {{ $tc('plc.modal.download') }}
+                    </sw-button>
+                {% endblock %}
+            </template>
+        {% endblock %}
+    </sw-modal>
+{% endblock %}

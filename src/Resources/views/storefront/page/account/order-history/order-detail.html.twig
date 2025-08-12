@@ -1,0 +1,33 @@
+{% sw_extends '@Storefront/storefront/page/account/order-history/order-detail.html.twig' %}
+
+{% block page_account_order_item_detail_overview %}
+    <div class="order-item-detail">
+        <div class="collapse" data-bs-parent="#accountOrderCollapse-{{ order.id }}"
+             id="order{{ order.orderNumber }}">
+            <div class="order-detail-content">
+
+                {% block page_account_order_documents_table %}
+                    {{ parent() }}
+                {% endblock %}
+
+                {% block page_account_order_item_detail_table_header %}
+                    {{ parent() }}
+                {% endblock %}
+
+                {% block page_account_order_item_detail_table_body %}
+                    {{ parent() }}
+                {% endblock %}
+
+                {% if order.customerComment %}
+                    {% block page_account_order_item_detail_table_body_customer_comment %}
+                        {{ parent() }}
+                    {% endblock %}
+                {% endif %}
+
+                {% block page_account_order_item_detail_table_footer %}
+                    {{ parent() }}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

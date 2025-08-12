@@ -1,0 +1,466 @@
+{
+  "plc": {
+    "menu": {
+      "plc": "Post-Labelcenter",
+      "returnReason": "Rückgabegründe",
+      "addressData": "Adressen",
+      "bankData": "Bankdaten",
+      "dailyStatement": "Tagesabschluss",
+      "shippingService": "Versandservices"
+    },
+    "general": {
+      "titleSidebarItemRefresh": "Aktualisieren",
+      "context-menu": {
+        "show": "Anzeigen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen"
+      }
+    },
+    "custom-field": {
+      "entity": {
+        "shipping-services": "Post - Versandservices"
+      }
+    },
+    "modal": {
+      "editTitle": "Bearbeiten: ",
+      "save": "Speichern",
+      "generate": "Erstellen",
+      "download": "Herunterladen",
+      "buttonCancel": "Abbrechen",
+      "buttonDelete": "Löschen",
+      "createLabel": "Versandlabel erstellen",
+      "pdfLabelStartingSoon": "Ihr Download startet in Kürze",
+      "returnReason": {
+        "textDeleteConfirm": "Bist Du sicher, dass Du den Rückgabegrund \"{name}\" löschen möchtest?"
+      },
+      "addressData": {
+        "textDeleteConfirm": "Bist Du sicher, dass Du die Adresse \"{name}\" löschen möchtest?"
+      },
+      "bankData": {
+        "textDeleteConfirm": "Bist Du sicher, dass Du die Bankdaten \"{name}\" löschen möchtest?"
+      },
+      "shippingServices": {
+        "textDeleteConfirm": "Bist Du sicher, dass Du den Versandservice \"{name}\" löschen möchtest?"
+      },
+      "dailyStatement": {
+        "textDeleteConfirm": "Bist Du sicher, dass Du den Tagesabschluss löschen möchtest?"
+      },
+      "noChangesDetected": "Keine Änderungen erkannt.",
+      "saveSuccess": "Erfolgreich gespeichert.",
+      "saveError": "Fehler beim Speichern.",
+      "cancelLabelSuccessful": "Label erfolgreich gelöscht",
+      "errorDeletingLabel": "Das Label konnte nicht gelöscht werden.",
+      "generateAndDownload": "Erstellen & Herunterladen"
+    },
+    "returnReasons": {
+      "list": {
+        "title": "Rückgabegründe",
+        "technicalName": "Technische Bezeichnung",
+        "name": "Name",
+        "create": "Erstellen",
+        "show": "Anzeigen"
+      },
+      "singleReason": "Rückgabegrund",
+      "placeholder": {
+        "name": "z.B. Zu klein",
+        "technicalName": "z.B. small"
+      },
+      "label": {
+        "name": "Name",
+        "technicalName": "Technischer Name"
+      },
+      "createTitle": "Rückgabegrund erstellen",
+      "editTitle": "Rückgabegrund bearbeiten",
+      "messages": {
+        "missingValues": "Ein oder mehrere Werte fehlen.",
+        "invalidValues": "Ein oder mehrere Werte fehlerhaft.",
+        "success": "Erfolgreich gespeichert.",
+        "error": "Speichern fehlgeschlagen."
+      }
+    },
+    "shippingServices": {
+      "list": {
+        "title": "Versandservices",
+        "displayName": "Name",
+        "salesChannel": "Verkaufskanal",
+        "shippingProduct": "Versandprodukt",
+        "featureList": "Zusatzoptionen",
+        "create": "Erstellen",
+        "show": "Anzeigen",
+        "country": "Land",
+        "countries": "Länder",
+        "countryCodes": "Ländercodes"
+      },
+      "createTitle": "Versandservice erstellen",
+      "editTitle": "Versandservice bearbeiten",
+      "placeholder": {
+        "displayName": "Anzeigename eingeben...",
+        "salesChannel": "Verkaufskanal auswählen...",
+        "country": "Land auswählen.",
+        "countries": "Länder auswählen.",
+        "service": "Produkt auswählen...",
+        "features": "Ein oder mehrere Features auswählen..."
+      },
+      "label": {
+        "displayName": "Anzeigename",
+        "salesChannel": "Verkaufskanal",
+        "country": "Land",
+        "service": "Produkt",
+        "features": "Features",
+        "countries": "Länder",
+        "countryCodes": "Ländercodes"
+      },
+      "messages": {
+        "noServicesFound": "Keine Services gefunden. Bitte ausgewählte Länder prüfen.",
+        "listCompatible": "Liste kompatibel. Erfolgreich gespeichert.",
+        "listIncompatible": "Liste nicht kompatibel.",
+        "missingValues": "Notwendige Parameter fehlen",
+        "servicesSaved": "Versandservice erfolgreich gespeichert.",
+        "errorSavingService": "Fehler beim Speichern des Versandservices."
+      },
+      "shippingMethod": {
+        "headline": "Post-Versandservices erstellen",
+        "link": "Zu den Post-Versandservices",
+        "backLink": "Shopware-Versandmethoden"
+      }
+    },
+    "bankData": {
+      "list": {
+        "title": "Bankdaten",
+        "displayName": "Anzeigename",
+        "accountHolder": "Kontoinhaber",
+        "bic": "BIC",
+        "iban": "IBAN",
+        "create": "Erstellen",
+        "show": "Anzeigen"
+      },
+      "placeholder": {
+        "displayName": "z.B. Hauptbank",
+        "accountHolder": "z.B. Max Mustermann",
+        "bic": "z.B. SPBAATWWXXX",
+        "iban": "z.B. ATXX XXXX XXXX XXXX XXXX"
+      },
+      "label": {
+        "displayName": "Anzeigename",
+        "accountHolder": "Kontoinhaber",
+        "bic": "BIC",
+        "iban": "IBAN"
+      },
+      "createTitle": "Bankdaten erstellen",
+      "editTitle": "Bankdaten bearbeiten",
+      "messages": {
+        "missingValues": "Ein oder mehrere Werte fehlen.",
+        "invalidValues": "Ein oder mehrere Werte fehlerhaft.",
+        "success": "Erfolgreich gespeichert.",
+        "error": "Speichern fehlgeschlagen."
+      }
+    },
+    "addressData": {
+      "options": {
+        "shipping": "Versandadresse",
+        "return": "Rücksendeadresse",
+        "returnAndShipping": "Versand- & Rücksendeadresse"
+      },
+      "list": {
+        "email": "E-Mail",
+        "title": "Adressen",
+        "displayName": "Anzeigename",
+        "defaultAddress": "Standard-Adresse",
+        "eoriNumber": "EORI-Nummer",
+        "salutation": "Anrede",
+        "company": "Firma",
+        "department": "Abteilung",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "street": "Straße",
+        "country": "Land",
+        "city": "Stadt",
+        "zipcode": "PLZ",
+        "phoneNumber": "Telefon",
+        "addressType": "Adresstyp",
+        "bankData": "Bankdaten",
+        "salesChannel": "Verkaufskanal",
+        "create": "Erstellen",
+        "show": "Anzeigen"
+      },
+      "placeholder": {
+        "displayName": "z.B. Firma Hauptadresse",
+        "eoriNumber": "z.B. AT123456789012345",
+        "salutation": "Anrede auswählen...",
+        "company": "z.B. Musterfirma",
+        "department": "z.B. Musterabteilung",
+        "firstName": "z.B. Max",
+        "lastName": "z.B. Mustermann",
+        "street": "z.B. Musterstraße 15",
+        "city": "z.B Musterstadt",
+        "country": "Land",
+        "zipcode": "z.B. 1111",
+        "phoneNumber": "z.B. 0800/1234567",
+        "addressType": "Adresstyp auswählen...",
+        "bankData": "Bankdaten auswählen...",
+        "salesChannel": "Verkaufskanal auswählen...",
+        "email": "E-Mail eingeben..."
+      },
+      "label": {
+        "email": "E-Mail",
+        "displayName": "Anzeigename",
+        "eoriNumber": "EORI-Nummer",
+        "salutation": "Anrede",
+        "defaultAddress": "Standard-Adresse",
+        "company": "Firma",
+        "department": "Abteilung",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "street": "Straße",
+        "city": "Stadt",
+        "country": "Land",
+        "zipcode": "PLZ",
+        "phoneNumber": "Telefon",
+        "addressType": "Adresstyp",
+        "bankData": "Bankdaten",
+        "salesChannel": "Verkaufskanal"
+      },
+      "createTitle": "Adresse erstellen",
+      "editTitle": "Adresse bearbeiten",
+      "messages": {
+        "missingValues": "Ein oder mehrere Werte fehlen.",
+        "invalidValues": "Ein oder mehrere Werte fehlerhaft.",
+        "success": "Erfolgreich gespeichert.",
+        "error": "Speichern fehlgeschlagen."
+      }
+    },
+    "order": {
+      "tab": {
+        "trackingTitle": "Versandtracking",
+        "documentsTitle": "Post Labels",
+        "returnData": "Post Retouren"
+      },
+      "page": {
+        "documentListTitle": "Erstellte Post Labels",
+        "returnDataTitle": "Erstellte Kundenretouren"
+      },
+      "labels": {
+        "fileName": "Dateiname",
+        "createdAt": "Erstellungsdatum",
+        "shippingDocuments": "Dokumente",
+        "trackingAT": "Trackingnummer (AT)",
+        "trackingINT": "Trackingnummer (international)",
+        "downloaded": "Heruntergeladen?",
+        "delete": "Stornieren?",
+        "bulkLabel": "Postlabels (Mehrfach-Erstellung)",
+        "mergedLabel": "Bestehende Labels herunterladen"
+      },
+      "download": {
+        "shippingLabel": "SHIPPING_LABEL-",
+        "returnLabel": "RETURN_LABEL-",
+        "shippingDocuments": "DOKUMENTE-"
+      },
+      "postLabels": {
+        "modal": {
+          "creatingLabel": "Label wird erstellt",
+          "createLabelSuccess": "Label erfolgreich erstellt",
+          "errorCreatingLabel": "Fehler beim Erstellen des Labels"
+        },
+        "shippingLabel": "Versandlabel",
+        "returnLabel": "Retourenlabel",
+        "shippingDocuments": "Zolldokumente",
+        "fileName": "Dateiname",
+        "fileType": "Dateityp",
+        "createdAt": "Erstellungsdatum",
+        "download": "Herunterladen",
+        "generateAdditionalDocuments": "Post-Labels generieren",
+        "helpText": {
+          "phone": "Bei Next-Day und Post-Express International Sendungen ist dieses Feld verpflichtend",
+          "customsDataLineItems": "Für Auslandssendungen bitte Zolltarif-Nummer, Ursprungsland, Zolloptionen und Einheit ausfüllen",
+          "shippingServicesInfo": "Eine Änderungen der Versandmethode für normale Sendungen ist bei Labelerstellung möglich.\nAnpassung der Lieferadresse für/auf Wunschabholstation/-filiale ist derzeit leider nicht vorgesehen."
+        },
+        "label": {
+          "recipientData": "Empfängerdaten",
+          "senderAddress": "Absenderadresse",
+          "shippingData": "Sendungsdaten",
+          "senderData": "Absenderdaten",
+          "customsData": "Zolldaten",
+          "orderData": "Bestelldaten",
+          "packageData": "Paketdaten",
+          "packageNumber": "Paketnummer",
+          "duplicate": "Duplizieren",
+          "documentType": "Dokumentenart",
+          "documentNumber": "Dokumentennummer",
+          "quantity": "Menge",
+          "phone": "Telefon",
+          "shipperAddress": "Versandadresse",
+          "returnAddress": "Rücksendeadresse",
+          "labelType": "Label-Typ",
+          "title": "Adressen",
+          "displayName": "Anzeigename",
+          "defaultAddress": "Standard-Adresse",
+          "eoriNumber": "EORI-Nummer",
+          "salutation": "Anrede",
+          "company": "Firma",
+          "department": "Abteilung",
+          "firstName": "Vorname",
+          "lastName": "Nachname",
+          "street": "Straße",
+          "city": "Stadt",
+          "zipcode": "PLZ",
+          "phoneNumber": "Telefon",
+          "addressType": "Adresstyp",
+          "bankData": "Bankdaten",
+          "salesChannel": "Verkaufskanal",
+          "additionalAddressLine1": "Addresszusatz 1",
+          "additionalAddressLine2": "Addresszusatz 2",
+          "create": "Erstellen",
+          "show": "Anzeigen",
+          "email": "E-Mail",
+          "currency": "Währung",
+          "amountTotal": "Bestellsumme",
+          "shippingService": "Versandprodukt",
+          "country": "Land",
+          "countryId": "Land",
+          "accountHolder": "Kontoinhaber",
+          "bic": "BIC",
+          "iban": "IBAN",
+          "customsDescription": "Zollbeschreibung",
+          "returnOptions": "Rücksendeoption",
+          "returnWays": "Rücksendeweg"
+        },
+        "placeholder": {
+          "shipperAddress": "Versandadresse auswählen...",
+          "returnAddress": "Rücksendeadresse auswählen...",
+          "email": "eine E-Mail eingeben...",
+          "labelType": "einen Labeltyp auswählen...",
+          "displayName": "z.B. Firma Hauptadresse",
+          "eoriNumber": "z.B. AT123456789012345",
+          "salutation": "Anrede auswählen...",
+          "company": "z.B. Musterfirma",
+          "department": "z.B. Musterabteilung",
+          "firstName": "z.B. Max",
+          "lastName": "z.B. Mustermann",
+          "street": "z.B. Musterstraße 15",
+          "city": "z.B Musterstadt",
+          "phone": "Telefonnummer eingeben...",
+          "country": "Land auswählen...",
+          "countryId": "Land auswählen...",
+          "zipcode": "z.B. 1111",
+          "phoneNumber": "z.B. 0800/1234567",
+          "addressType": "einen Adresstyp auswählen...",
+          "bankData": "Bankdaten auswählen...",
+          "salesChannel": "Verkaufskanal auswählen...",
+          "additionalAddressLine1": "Adresszusatz 1 eingeben...",
+          "additionalAddressLine2": "Adresszusatz 2 eingeben...",
+          "currency": "eine Währung auswählen...",
+          "amountTotal": "Bestellsumme eingeben...",
+          "shippingService": "Versandprodukt auswählen...",
+          "accountHolder": "Kontoinhaber eingeben...",
+          "bic": "BIC eingeben...",
+          "iban": "IBAN eingeben...",
+          "customsDescription": "Zollbeschreibung eingeben...",
+          "returnOptions": "Rückesendeoption auswählen...",
+          "returnWays": "Rücksendeweg auswählen..."
+        },
+        "createTitle": "Versanddokumente erstellen",
+        "messages": {
+          "errorCreatingLabel": "Fehler beim Erstellen des Labels",
+          "creatingLabel": "Label wird erstellt",
+          "successCreatingLabel": "Label erfolgreich erstellt.",
+          "errorFetchingBulkOrder": "Bestelldaten konnten nicht geladen werden."
+        },
+        "error": {
+          "noShippingServiceLanguage": "Bitte ein Versandprodukt in der ausgewählten Sprache bei der Versandart hinterlegen."
+        }
+      },
+      "returnData": {
+        "returnNote": "Retoureninfo",
+        "returnReason": "Retourengrund",
+        "noReturnsFound": "Keine Retouren gefunden.",
+        "columns": {
+          "productNumber": "Produktnummer",
+          "name": "Produktname",
+          "quantity": "Retourenmenge",
+          "unitPrice": "Einzelpreis (zum Bestelldatum)"
+        }
+      }
+    },
+    "dailyStatement": {
+      "createTitle": "Tagesabschluss herunterladen",
+      "list": {
+        "plcDateAdded": "Hinzugefügt am",
+        "plcCreatedOn": "Erstellt am",
+        "salesChannel": "Verkaufskanal",
+        "pdfData": "Tagesabschluss",
+        "create": "Erstellen",
+        "title": "Tagesabschluss"
+      },
+      "messages": {
+        "errorCreatingStatement": "Fehler beim Erstellen des Tagesabschlusses",
+        "successCreating": "Tagesabschluss erstellt, Download startet in Kürze",
+        "successNoData": "Keine Daten für den aktuellen Tag vorhanden",
+        "missingValues": "Bitte alle Felder ausfüllen"
+      },
+      "modal": {
+        "placeholder": {
+          "statementDate": "z.B. 12.12.2022",
+          "salesChannel": "Verkaufskanal auswählen..."
+        },
+        "label": {
+          "statementDate": "Datum",
+          "salesChannel": "Verkaufskanal"
+        },
+        "helpText": {
+          "statementDate": "Wird kein Datum ausgefüllt, wird ein neuer Tagesabschluss für heute erstellt",
+          "info": "Hinweis",
+          "creationInfo": "Bitte beachten Sie, dass der Tagesabschlusses nur einmal täglich ausgelöst werden kann. Der Tagesabschluss beinhaltet alle erstellen PLC-Labels, die ab dem Zeitpunkt der Erstellung des letzten Tagesabschlusses bis zum Zeitpunkt der Erstellung des aktuellen Tagesabschlusses generiert wurden."
+        }
+      }
+    },
+    "bulkLabel": {
+      "modalTitle": "Massen-Labelerstellung",
+      "columns": {
+        "orderNumber": "Bestellnummer",
+        "targetCountry": "Zielland",
+        "deliveryState": "Aktueller Versandstatus",
+        "customsInformation": "Zollinformationen eingegeben",
+        "savedLabel": "Label gespeichert"
+      },
+      "context-menu": {
+        "createLabel": "Label erstellen/bearbeiten"
+      },
+      "label": {
+        "deliveryState": "Neuer Versandstatus (optional)",
+        "saveLabel": "Speichern",
+        "notCreatedLabels": "Nicht erstellte/fehlerhafte Labels",
+        "createdLabels": "Erstellte Labels"
+      },
+      "placeholder": {
+        "deliveryState": "Bitte einen Versandstatus auswählen..."
+      },
+      "messages": {
+        "missingFields": "Bitte alle Felder ausfüllen.",
+        "noLabelsGenerated": "Bitte mindestens ein Label generieren...",
+        "creatingLabel": "Label werden erstellt...",
+        "downloadStartingSoon": "Download startet in Kürze",
+        "errorDownloading": "Fehler beim Downloaden der Labels",
+        "failedTransitions": "Für folgende Bestellungen war eine Statusänderung nicht möglich: {orderNumbers}",
+        "failedOrders": "Bestellnummer #{orderNumber}: {message}"
+      }
+    },
+    "mergedLabel": {
+      "label": {
+        "chosenOrders": "Ausgewählte Bestellungen",
+        "generatedLabels": "Labels zu folgenden Bestellungen exportiert"
+      },
+      "list": {
+        "orderNumber": "Bestellnummer",
+        "orderDateTime": "Bestellzeitpunkt",
+        "targetCountry": "Zielland",
+        "labelTypes": "Labeltypen"
+      },
+      "messages": {
+        "downloadStartingSoon": "Download startet in Kürze",
+        "errorDownloading": "Fehler beim Downloaden der Labels",
+        "noLabelsFound": "Keine Labels gefunden..."
+      },
+      "modalTitle": "Bestehende Labels herunterladen"
+    }
+  }
+}

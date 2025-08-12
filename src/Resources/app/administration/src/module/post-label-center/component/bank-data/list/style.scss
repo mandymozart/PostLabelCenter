@@ -1,0 +1,16 @@
+.plc-bank-data-list {
+  .smart-bar__header {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 2fr 1fr;
+
+    button, a {
+      justify-self: right;
+      max-width: 250px;
+    }
+  }
+}
+
+.plc-bank-data-list__context-menu-edit-delete {
+  color: red;
+}

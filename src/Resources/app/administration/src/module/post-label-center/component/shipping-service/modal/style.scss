@@ -1,0 +1,23 @@
+.plc-shipping-service-modal {
+  .plc-shipping-service-modal_name {
+    margin-bottom: 15px;
+  }
+
+  .sw-field{
+    &.sw-field--text{
+      padding: 10px 0;
+    }
+
+    margin-bottom: 15px;
+  }
+
+  .shipping-service__sales-channel-select{
+    margin-top: 10px;
+  }
+
+  .plc-shipping-features__select{
+    .sw-select-selection-list__input{
+      min-width: 260px;
+    }
+  }
+}

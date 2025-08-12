@@ -1,0 +1,109 @@
+{% sw_extends '@Storefront/storefront/page/account/order-history/order-item.html.twig' %}
+
+{% block page_account_order_item_context_menu_cancel_order %}
+    {{ parent() }}
+
+    {% if config('PostLabelCenter.config.enableCustomerReturns') and config("PostLabelCenter.config.returnDateRange") > 0 %}
+        {% set currentDate = date() %}
+        {% set lastReturnDate = currentDate|date_modify("-" ~ config("PostLabelCenter.config.returnDateRange") ~ " days") %}
+
+        {% if lastReturnDate < order.orderDateTime %}
+            <button class="btn btn-light btn-sm collapsed"
+                    type="submit"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#returnOrder{{ order.orderNumber }}"
+                    aria-expanded="false"
+                    aria-controls="collapseExample">
+                {{ 'plc.account.returnOrder'|trans }} {% sw_icon 'arrow-360-left' style {'pack': 'solid'} %}
+            </button>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block page_account_order_item_detail %}
+    {{ parent() }}
+
+    {% if config('PostLabelCenter.config.enableCustomerReturns') and config("PostLabelCenter.config.returnDateRange") > 0 %}
+        {% set currentDate = date() %}
+        {% set lastReturnDate = currentDate|date_modify("-" ~ config("PostLabelCenter.config.returnDateRange") ~ " days") %}
+
+        {% if lastReturnDate < order.orderDateTime %}
+            <div class="order-item-detail">
+                <div class="collapse" id="returnOrder{{ order.orderNumber }}"
+                     data-bs-parent="#accountOrderCollapse-{{ order.id }}">
+                    <div class="order-detail-content">
+                        <form class="plc-return-order-form needs-validation"
+                              action="{{ path('frontend.plc.return.order') }}" method="post">
+                            <div class="return-order-line-items">
+                                <div class="return-order-headline">
+                                    <div class="return-order-checkbox-info"></div>
+                                    <div class="return-order-item-info">{{ 'plc.returnOrder.itemInfo'|trans }}</div>
+                                    <div class="return-order-product-number">{{ 'plc.returnOrder.productNumber'|trans }}</div>
+                                    <div class="return-order-quantity-info">{{ 'plc.returnOrder.quantityInfo'|trans }}</div>
+                                </div>
+                                {% for lineItem in order.lineItems %}
+                                    <div class="return-order-lineItem">
+                                        <input type="hidden" name="lineItems[{{ lineItem.id }}][productId]"
+                                               value="{{ lineItem.Id }}">
+                                        <input class="return-order-check" type="checkbox"
+                                               name="lineItems[{{ lineItem.id }}][lineItemChecked]"
+                                               aria-label="{{ 'plc.returnOrder.lineItem.checkboxLabel'|trans }}">
+                                        <div class="product-info">
+                                            <span class="return-order-product-name">{{ lineItem.label }}</span>
+                                            <img alt="{{ lineItem.cover ? lineItem.cover.fileName : '' }}"
+                                                 src="{{ lineItem.cover ? lineItem.cover.url : '' }}"
+                                                 class="return-order-product-img img-fluid order-item-img">
+                                        </div>
+                                        <span class="return-order-product-number">{{ lineItem.payload.productNumber }}</span>
+                                        <select class="form-select return-order-quantity"
+                                                name="lineItems[{{ lineItem.id }}][lineItemQuantity]"
+                                                aria-label="{{ 'plc.returnOrder.lineItem.quantityLabel'|trans }}">
+                                            {% for i in range(1, lineItem.quantity) %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="returnNote">{{ 'plc.returnOrder.note'|trans }}</label>
+                                <textarea name="returnNote" required class="form-control" id="returnNote" rows="3"
+                                          placeholder="{{ 'plc.returnOrder.notePlaceholder'|trans }}"></textarea>
+                            </div>
+
+                            <input name="orderId" type="hidden" value="{{ order.id }}">
+                            <input name="salesChannelId" type="hidden" value="{{ order.salesChannelId }}">
+                            <input type="hidden" name="redirectTo" value="{{ activeRoute }}"/>
+
+                            <div class="return-form-footer">
+                                {% if page.returnReasons|length > 0 %}
+                                    <select name="returnReason" required class="form-select">
+                                        <option selected disabled
+                                                value="">{{ 'plc.returnOrder.reasonSelectPlaceholder'|trans }}</option>
+                                        {% for returnReason in page.returnReasons %}
+                                            <option value="{{ returnReason.id }}">{{ returnReason.translated.name ?? returnReason.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <input name="returnReason"
+                                           placeholder="{{ 'plc.returnOrder.reasonInputPlaceholder'|trans }}"
+                                           class="form-control">
+                                {% endif %}
+                                <div class="return-form-buttons">
+                                    <button class="btn btn-secondary order-hide-btn collapsed"
+                                            type="button"
+                                    {{ dataBsToggleAttr }}="collapse"
+                                    {{ dataBsTargetAttr }}="#returnOrder{{ order.orderNumber }}"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample">{{ 'plc.returnOrder.cancel'|trans }}</button>
+                                    <button type="submit"
+                                            class="btn btn-primary">{{ 'plc.returnOrder.send'|trans }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

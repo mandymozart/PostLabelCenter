@@ -1,0 +1,249 @@
+{% block plc_return_reason__modal %}
+    <sw-modal
+            class="plc-return-reasons-modal"
+            :title="modalTitle"
+            variant="large"
+            @modal-close="$emit('modal-close')"
+    >
+        {% block plc_return_reason__modal_body %}
+            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
+            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <template v-else>
+                <sw-checkbox-field
+                        class="plc-address-data-modal_defaultAddress"
+                        :label="$tc('plc.addressData.label.defaultAddress')"
+                        v-model:value="addressObject.defaultAddress"
+                        type="checkbox"
+                        validation="required"
+                />
+                <div class="row">
+                    <sw-text-field
+                            class="plc-address-data-modal_displayName"
+                            size="small"
+                            v-model:value="addressObject.displayName"
+                            name="address-data-displayName"
+                            :label="$tc('plc.addressData.label.displayName')"
+                            :placeholder="$tc('plc.addressData.placeholder.displayName')"
+                            validation="required"
+                            required
+                    />
+
+
+                    <sw-single-select
+                            v-model:value="addressObject.addressType"
+                            class="sw-bulk-edit-change-type__selection"
+                            :options="createOptions"
+                            name="address-data-addressType"
+                            :label="$tc('plc.addressData.label.addressType')"
+                            :placeholder="$tc('plc.addressData.placeholder.addressType')"
+                            validation="required"
+                            required
+                            size="small"
+                    />
+                </div>
+
+                <div class="row">
+                    <sw-entity-single-select
+                            v-model:value="addressObject.salesChannelId"
+                            class="address-data__sales-channel-select"
+                            entity="sales_channel"
+                            name="address-data-salutation"
+                            :label="$tc('plc.addressData.label.salesChannel')"
+                            :placeholder="$tc('plc.addressData.placeholder.salesChannel')"
+                            :criteria="salesChannelCriteria"
+                            label-property="name"
+                            show-clearable-button
+                            validation="required"
+                            required
+                            size="small"
+                    />
+
+                    <sw-entity-single-select
+                            v-model:value="addressObject.bankDataId"
+                            class="sw-customer-address-form__addresData-select"
+                            entity="plc_bank_data"
+                            name="address-data-bankData"
+                            :label="$tc('plc.addressData.label.bankData')"
+                            :placeholder="$tc('plc.addressData.placeholder.bankData')"
+                            :criteria="bankDataCriteria"
+                            label-property="displayName"
+                            show-clearable-button
+                            size="small"
+                    />
+                </div>
+
+                <div class="row">
+                    <sw-text-field
+                            class="plc-address-data-modal_eoriNumber"
+                            size="small"
+                            v-model:value="addressObject.eoriNumber"
+                            name="address-data-eoriNumber"
+                            :label="$tc('plc.addressData.label.eoriNumber')"
+                            :placeholder="$tc('plc.addressData.placeholder.eoriNumber')"
+                    />
+
+                    <sw-text-field
+                            class="plc-address-data-modal_email"
+                            size="small"
+                            type="email"
+                            v-model:value="addressObject.email"
+                            name="address-data-email"
+                            :label="$tc('plc.addressData.label.email')"
+                            :placeholder="$tc('plc.addressData.placeholder.email')"
+                            validation="required"
+                            required
+                    />
+                </div>
+
+                <div class="row">
+                    <sw-text-field
+                            class="plc-address-data-modal_company"
+                            size="small"
+                            v-model:value="addressObject.company"
+                            name="address-data-company"
+                            :label="$tc('plc.addressData.label.company')"
+                            :placeholder="$tc('plc.addressData.placeholder.company')"
+                    />
+
+                    <sw-text-field
+                            class="plc-address-data-modal_department"
+                            size="small"
+                            v-model:value="addressObject.department"
+                            name="address-data-department"
+                            :label="$tc('plc.addressData.label.department')"
+                            :placeholder="$tc('plc.addressData.placeholder.department')"
+                    />
+                </div>
+
+                <div class="row">
+                    <sw-entity-single-select
+                            v-model:value="addressObject.salutationId"
+                            class="sw-customer-address-form__salutation-select"
+                            entity="salutation"
+                            name="address-data-salutation"
+                            :label="$tc('plc.addressData.label.salutation')"
+                            :placeholder="$tc('plc.addressData.placeholder.salutation')"
+                            :criteria="salutationCriteria"
+                            label-property="displayName"
+                            show-clearable-button
+                            validation="required"
+                            required
+                            size="small"
+                    />
+
+                    <sw-text-field
+                            class="plc-address-data-modal_firstName"
+                            size="small"
+                            v-model:value="addressObject.firstName"
+                            name="address-data-firstName"
+                            :label="$tc('plc.addressData.label.firstName')"
+                            :placeholder="$tc('plc.addressData.placeholder.firstName')"
+                            validation="required"
+                            required
+                    />
+                </div>
+
+                <div class="row">
+                    <sw-text-field
+                            class="plc-address-data-modal_lastName"
+                            size="small"
+                            v-model:value="addressObject.lastName"
+                            name="address-data-lastName"
+                            :label="$tc('plc.addressData.label.lastName')"
+                            :placeholder="$tc('plc.addressData.placeholder.lastName')"
+                            validation="required"
+                            required
+                    />
+
+                    <sw-text-field
+                            class="plc-address-data-modal_street"
+                            size="small"
+                            v-model:value="addressObject.street"
+                            name="address-data-street"
+                            :label="$tc('plc.addressData.label.street')"
+                            :placeholder="$tc('plc.addressData.placeholder.street')"
+                            validation="required"
+                            required
+                    />
+                </div>
+
+
+                <div class="row">
+                    <sw-text-field
+                            class="plc-address-data-modal_city"
+                            size="small"
+                            v-model:value="addressObject.city"
+                            name="address-data-city"
+                            :label="$tc('plc.addressData.label.city')"
+                            :placeholder="$tc('plc.addressData.placeholder.city')"
+                            validation="required"
+                            required
+                    />
+
+                    <sw-text-field
+                            class="plc-address-data-modal_zipcode"
+                            size="small"
+                            v-model:value="addressObject.zipcode"
+                            name="address-data-zipcode"
+                            :label="$tc('plc.addressData.label.zipcode')"
+                            :placeholder="$tc('plc.addressData.placeholder.zipcode')"
+                            validation="required"
+                            required
+                    />
+                </div>
+                <div class="row">
+                    <sw-entity-single-select
+                            v-model:value="addressObject.countryId"
+                            class="sw-customer-address-form__country-select"
+                            entity="country"
+                            name="address-data-country"
+                            :label="$tc('plc.addressData.label.country')"
+                            :placeholder="$tc('plc.addressData.placeholder.country')"
+                            :criteria="countryCriteria"
+                            label-property="name"
+                            show-clearable-button
+                            validation="required"
+                            required
+                            size="small"
+                    />
+
+                    <sw-text-field
+                            class="plc-address-data-modal_phoneNumber"
+                            size="small"
+                            v-model:value="addressObject.phoneNumber"
+                            name="address-data-phoneNumber"
+                            :label="$tc('plc.addressData.label.phoneNumber')"
+                            :placeholder="$tc('plc.addressData.placeholder.phoneNumber')"
+                            validation="required"
+                            required
+                    />
+                </div>
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_return_reason__modal_footer %}
+            <template #modal-footer>
+                {% block plc_return_reason__modal_footer_close_button %}
+                    <sw-button
+                            size="small"
+                            @click="$emit('modal-close')"
+                    >
+                        {{ $tc('global.sw-modal.labelClose') }}
+                    </sw-button>
+                {% endblock %}
+
+                {% block plc_return_reason__modal_footer_save_button %}
+                    <sw-button
+                            variant="primary"
+                            size="small"
+                            :disabled="isLoading"
+                            @click="saveAddressData"
+                    >
+                        {{ $tc('plc.modal.save') }}
+                    </sw-button>
+                {% endblock %}
+            </template>
+        {% endblock %}
+    </sw-modal>
+{% endblock %}

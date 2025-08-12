@@ -1,0 +1,11 @@
+{% sw_extends '@Storefront/storefront/page/account/index.html.twig' %}
+
+{% block page_account_overview_newest_order_table %}
+    <div class="order-table"
+         id="accountOrderCollapse-{{ page.newestOrder.id }}">
+
+        {% block page_account_overview_newest_order_table_body %}
+           {{ parent() }}
+        {% endblock %}
+    </div>
+{% endblock %}

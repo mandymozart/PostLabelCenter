@@ -1,0 +1,212 @@
+{% block plc_shipping_services_list %}
+    <sw-page class="plc-shipping-services-list">
+
+        {% block plc_shipping_services_list_smart_bar_header %}
+            <template #smart-bar-header>
+                {% block plc_shipping_services_list_smart_bar_header_title %}
+                    <h2>
+                        {% block plc_shipping_services_list_smart_bar_header_title_text %}
+                            {{ $tc('sw-settings.index.title') }}
+                            <mt-icon v-if="feature.isActive('v6.6.0.0')"
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            <sw-icon v-if="!feature.isActive('v6.6.0.0')"
+                                     name="regular-chevron-right-xs"
+                                     small
+                            />
+                            {{ $tc('plc.shippingServices.list.title') }}
+                        {% endblock %}
+                    </h2>
+                {% endblock %}
+
+                <sw-internal-link style="padding-right: 15px" :router-link="{ name: 'sw.settings.shipping.index'}"
+                                  :inline="false" :disabled="false">
+                    {{ $tc('plc.shippingServices.shippingMethod.backLink') }}
+                </sw-internal-link>
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_shipping_services_language_switch %}
+            <template #language-switch>
+                <sw-language-switch @on-change="onChangeLanguage"/>
+            </template>
+        {% endblock %}
+
+        {% block plc_shipping_services_list_actions_save %}
+            <template #smart-bar-actions>
+                <sw-button
+                        @click="openShippingServicesModal(true)"
+                        variant="primary">
+                    {{ $tc('plc.shippingServices.list.create') }}
+                </sw-button>
+
+                <shipping-service-modal
+                        class="plc-shipping-services-modal"
+                        :shipping-service-entity="shippingServicesModal"
+                        v-if="shippingServicesModal"
+                        @modal-save="saveShippingServicesModal"
+                        @modal-close="closeShippingServicesModal">
+                </shipping-service-modal>
+            </template>
+        {% endblock %}
+
+        {% block plc_shipping_services_list_content %}
+            <template #content>
+                {% block plc_shipping_services_list_content_listing %}
+                    <sw-entity-listing
+                            :columns="shippingServicesColumns"
+                            :full-page="true"
+                            :items="shippingServiceEntries"
+                            :show-settings="true"
+                            :show-selection="false"
+                            :show-actions="true"
+                            :sort-by="sortBy"
+                            :sort-direction="sortDirection"
+                            :is-loading="isLoading"
+                            :allow-column-edit="true"
+                            :disable-data-fetching="true"
+                            :repository="shippingServicesRepository"
+                            :page="page"
+                            @page-change="onPageChange"
+                            @update-records="updateTotal">
+
+                        {% block plc_shipping_services_list_column_name %}
+                            <template #column-displayName="{ item }">
+                                <sw-context-menu-item
+                                        @click="openShippingServicesModal(item)"
+                                        :shipping-service-entity="item"
+                                >
+                                    {{ item.translated ? item.translated.displayName : item.displayName }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_shipping_services_list_column_salesChannel %}
+                            <template #column-salesChannel="{ item }">
+                                {{ item.salesChannel.translated ? item.salesChannel.translated.name : item.salesChannel.name }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_shipping_services_list_column_countries %}
+                            <template #column-countries="{ item }">
+                                <div v-if="item.countries">
+                                    <span v-for="country, index in item.countries.slice(0, 3)">
+                                        <span v-if="index > 0">, </span>
+                                            <span>{{ country.translated ? country.translated.name : country.name }}</span>
+                                        </span>
+                                    <span v-if="item.countries.length > 3">, ...</span>
+                                </div>
+                                <div v-else></div>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_shipping_services_list_column_countryCodes %}
+                            <template #column-countryCodes="{ item }">
+                                <div v-if="item.countries">
+                                    <span v-for="country, index in item.countries">
+                                        <span v-if="index > 0">, </span>
+                                        {{ country.iso }}
+                                    </span>
+                                </div>
+                                <div v-else></div>
+                            </template>
+                        {% endblock %}
+
+
+                        {% block plc_shipping_services_list_column_product %}
+                            <template #column-shippingProduct="{ item }">
+                                {{ jsonDecode(item.shippingProduct, 'name') }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_shipping_services_list_column_featureList %}
+                            <template #column-featureList="{ item }">
+                                {{ jsonDecode(item.featureList, 'name') }}
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_shipping_services_list_context_menu %}
+                            <template #actions="{ item }">
+                                <sw-context-menu-item
+                                        class="plc-shipping-services-list__context-menu-edit-action"
+                                        @click="openShippingServicesModal(item)"
+                                >
+                                    {{ $tc('plc.general.context-menu.edit') }}
+                                </sw-context-menu-item>
+
+                                <sw-context-menu-item
+                                        variant="danger"
+                                        class="plc-shipping-services-list__context-menu-edit-delete"
+                                        @click="onDelete(item.id)"
+                                >
+                                    {{ $tc('plc.general.context-menu.delete') }}
+                                </sw-context-menu-item>
+                            </template>
+                        {% endblock %}
+
+                        {% block plc_shipping_services_list_modal %}
+                            <template #action-modals="{ item }">
+                                <sw-modal
+                                        v-if="showDeleteModal === item.id"
+                                        :title="$tc('global.default.warning')"
+                                        variant="small"
+                                        @modal-close="onCloseDeleteModal"
+                                >
+
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_confirm_delete_text %}
+                                        <p class="sw-settings-number-range-list__confirm-delete-text">
+                                            {{ $tc('plc.modal.shippingServices.textDeleteConfirm', 0, { name: item.displayName }) }}
+                                        </p>
+                                    {% endblock %}
+
+                                    <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                    {% block sw_settings_number_range_list_delete_modal_footer %}
+                                        <template #modal-footer>
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_cancel %}
+                                                <sw-button
+                                                        size="small"
+                                                        @click="onCloseDeleteModal"
+                                                >
+                                                    {{ $tc('plc.modal.buttonCancel') }}
+                                                </sw-button>
+                                            {% endblock %}
+
+                                            <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                            {% block sw_settings_number_range_list_delete_modal_confirm %}
+                                                <sw-button
+                                                        variant="danger"
+                                                        size="small"
+                                                        @click="onConfirmDelete(item.id)"
+                                                >
+                                                    {{ $tc('plc.modal.buttonDelete') }}
+                                                </sw-button>
+                                            {% endblock %}
+                                        </template>
+                                    {% endblock %}
+                                </sw-modal>
+                            </template>
+                        {% endblock %}
+                    </sw-entity-listing>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        {% block plc_shipping_services_list_sidebar %}
+            <template #sidebar>
+                <sw-sidebar class="plc-shipping-services-list__sidebar">
+                    {% block plc_shipping_services_list_sidebar_refresh %}
+                        <sw-sidebar-item
+                                icon="regular-undo"
+                                :title="$tc('plc.general.titleSidebarItemRefresh')"
+                                @click="onRefresh"
+                        />
+                    {% endblock %}
+                </sw-sidebar>
+            </template>
+        {% endblock %}
+    </sw-page>
+{% endblock %}

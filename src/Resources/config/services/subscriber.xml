@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="PostLabelCenter\Subscriber\ApiSubscriber">
+            <argument type="service" id="PostLabelCenter\Services\GreenFieldService"/>
+            <argument type="service" id="order_delivery.repository"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="PostLabelCenter\Subscriber\StorefrontSubscriber">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="plc_shipping_services.repository"/>
+            <argument type="service" id="plc_return_reasons.repository"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="translator" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+    </services>
+</container>

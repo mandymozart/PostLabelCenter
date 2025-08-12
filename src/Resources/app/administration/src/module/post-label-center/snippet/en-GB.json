@@ -1,0 +1,465 @@
+{
+  "plc": {
+    "menu": {
+      "plc": "Post label center",
+      "returnReason": "Return reasons",
+      "addressData": "Addresses",
+      "bankData": "Bank details",
+      "dailyStatement": "End of the day",
+      "shippingService": "Shipping Services"
+    },
+    "general": {
+      "titleSidebarItemRefresh": "To update",
+      "context-menu": {
+        "show": "Show",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "custom-field": {
+      "entity": {
+        "shipping-services": "Post - shipping services"
+      }
+    },
+    "modal": {
+      "editTitle": "Edit: ",
+      "save": "Save",
+      "generate": "Create",
+      "download": "Download",
+      "buttonCancel": "Cancel",
+      "buttonDelete": "Delete",
+      "createLabel": "Create shipping label",
+      "pdfLabelStartingSoon": "Your download will start shortly",
+      "returnReason": {
+        "textDeleteConfirm": "Are you sure you want to delete the return reason \"{name}\"?"
+      },
+      "addressData": {
+        "textDeleteConfirm": "Are you sure you want to delete the address \"{name}\"?"
+      },
+      "bankData": {
+        "textDeleteConfirm": "Are you sure you want to delete the bank details \"{name}\"?"
+      },
+      "shippingServices": {
+        "textDeleteConfirm": "Are you sure you want to delete the shipping service \"{name}\"?"
+      },
+      "dailyStatement": {
+        "textDeleteConfirm": "Are you sure you want to delete the daily closing?"
+      },
+      "noChangesDetected": "No changes detected.",
+      "saveSuccess": "Saved successfully.",
+      "saveError": "Error while saving.",
+      "cancelLabelSuccessful": "Label deleted successfully",
+      "errorDeletingLabel": "The label could not be deleted.",
+      "generateAndDownload": "Create & Download"
+    },
+    "returnReasons": {
+      "list": {
+        "title": "Return reasons",
+        "technicalName": "Technical name",
+        "name": "Surname",
+        "create": "Create",
+        "show": "Show"
+      },
+      "singleReason": "Reason for return",
+      "placeholder": {
+        "name": "e.g. Too small",
+        "technicalName": "e.g. small"
+      },
+      "label": {
+        "name": "Surname",
+        "technicalName": "Technical name"
+      },
+      "createTitle": "Create return reason",
+      "editTitle": "Edit return reason",
+      "messages": {
+        "missingValues": "One or more values are missing.",
+        "invalidValues": "One or more values are incorrect.",
+        "success": "Saved successfully.",
+        "error": "Saving failed."
+      }
+    },
+    "shippingServices": {
+      "list": {
+        "title": "Shipping Services",
+        "displayName": "Surname",
+        "salesChannel": "Sales channel",
+        "shippingProduct": "Shipping product",
+        "featureList": "Additional options",
+        "create": "Create",
+        "show": "Show",
+        "country": "country",
+        "countries": "Countries",
+        "countryCodes": "Country codes"
+      },
+      "createTitle": "Create shipping service",
+      "editTitle": "Edit shipping service",
+      "placeholder": {
+        "displayName": "Enter display name...",
+        "salesChannel": "Select sales channel...",
+        "country": "Choose country.",
+        "countries": "Select countries.",
+        "service": "Select product...",
+        "features": "Select one or more features..."
+      },
+      "label": {
+        "displayName": "display name",
+        "salesChannel": "Sales channel",
+        "country": "country",
+        "service": "product",
+        "features": "Features",
+        "countries": "Countries",
+        "countryCodes": "Country codes"
+      },
+      "messages": {
+        "noServicesFound": "No services found. ",
+        "listCompatible": "List compatible. ",
+        "listIncompatible": "List not compatible.",
+        "missingValues": "Necessary parameters are missing",
+        "servicesSaved": "Shipping service saved successfully.",
+        "errorSavingService": "Error saving shipping service"
+      },
+      "shippingMethod": {
+        "headline": "Create postal shipping services",
+        "link": "To the postal shipping services",
+        "backLink": "Shopware shipping methods"
+      }
+    },
+    "bankData": {
+      "list": {
+        "title": "Bank details",
+        "displayName": "display name",
+        "accountHolder": "account owner",
+        "bic": "BIC",
+        "iban": "IBAN",
+        "create": "Create",
+        "show": "Show"
+      },
+      "placeholder": {
+        "displayName": "e.g. main bank",
+        "accountHolder": "e.g. John Doe",
+        "bic": "e.g. SPBAATWWXXX",
+        "iban": "e.g. ATXX XXXX XXXX XXXX XXXX"
+      },
+      "label": {
+        "displayName": "display name",
+        "accountHolder": "account owner",
+        "bic": "BIC",
+        "iban": "IBAN"
+      },
+      "createTitle": "Create bank details",
+      "editTitle": "Edit bank details",
+      "messages": {
+        "missingValues": "One or more values are missing.",
+        "invalidValues": "One or more values are incorrect.",
+        "success": "Saved successfully.",
+        "error": "Saving failed."
+      }
+    },
+    "addressData": {
+      "options": {
+        "shipping": "delivery address",
+        "return": "return address",
+        "returnAndShipping": "Shipping & Return Address"
+      },
+      "list": {
+        "email": "e-mail",
+        "title": "Addresses",
+        "displayName": "display name",
+        "defaultAddress": "Default address",
+        "eoriNumber": "Eori number",
+        "salutation": "Salutation",
+        "company": "company",
+        "department": "Department",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "street": "Street",
+        "country": "country",
+        "city": "City",
+        "zipcode": "Postcode",
+        "phoneNumber": "phone",
+        "addressType": "Address type",
+        "bankData": "Bank details",
+        "salesChannel": "Sales channel",
+        "create": "Create",
+        "show": "Show"
+      },
+      "placeholder": {
+        "displayName": "e.g. company main address",
+        "eoriNumber": "e.g. AT123456789012345",
+        "salutation": "Select salutation...",
+        "company": "e.g. model company",
+        "department": "e.g. sample department",
+        "firstName": "e.g. Max",
+        "lastName": "e.g. Mustermann",
+        "street": "e.g. Musterstrasse 15",
+        "city": "e.g. model city",
+        "country": "country",
+        "zipcode": "e.g. 1111",
+        "phoneNumber": "e.g. 0800/1234567",
+        "addressType": "Select address type...",
+        "bankData": "Select bank details...",
+        "salesChannel": "Select sales channel...",
+        "email": "Enter email..."
+      },
+      "label": {
+        "email": "e-mail",
+        "displayName": "display name",
+        "eoriNumber": "Eori number",
+        "salutation": "Salutation",
+        "defaultAddress": "Default address",
+        "company": "company",
+        "department": "Department",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "street": "Street",
+        "city": "City",
+        "country": "country",
+        "zipcode": "Postcode",
+        "phoneNumber": "phone",
+        "addressType": "Address type",
+        "bankData": "Bank details",
+        "salesChannel": "Sales channel"
+      },
+      "createTitle": "Create address",
+      "editTitle": "Edit address",
+      "messages": {
+        "missingValues": "One or more values are missing.",
+        "invalidValues": "One or more values are incorrect.",
+        "success": "Saved successfully.",
+        "error": "Saving failed."
+      }
+    },
+    "order": {
+      "tab": {
+        "trackingTitle": "Shipping tracking",
+        "documentsTitle": "Post labels",
+        "returnData": "Post returns"
+      },
+      "page": {
+        "documentListTitle": "Created post labels",
+        "returnDataTitle": "Created customer returns"
+      },
+      "labels": {
+        "fileName": "filename",
+        "createdAt": "Creation Date",
+        "shippingDocuments": "Documents",
+        "trackingAT": "Tracking number (AT)",
+        "trackingINT": "Tracking number (international)",
+        "downloaded": "Downloaded?",
+        "delete": "Cancel?",
+        "bulkLabel": "Create post label",
+        "mergedLabel": "Download existing labels"
+      },
+      "download": {
+        "shippingLabel": "SHIPPING_LABEL-",
+        "returnLabel": "RETURN_LABEL -",
+        "shippingDocuments": "DOCUMENTS-"
+      },
+      "postLabels": {
+        "modal": {
+          "creatingLabel": "Label is created",
+          "createLabelSuccess": "Label created successfully",
+          "errorCreatingLabel": "Error creating label"
+        },
+        "shippingLabel": "Shipping label",
+        "returnLabel": "Return label",
+        "shippingDocuments": "Customs documents",
+        "fileName": "filename",
+        "fileType": "File type",
+        "createdAt": "Creation Date",
+        "download": "Download",
+        "generateAdditionalDocuments": "Generate Post-Labels",
+        "helpText": {
+          "phone": "This field is mandatory for Next-Day and Post-Express International shipments",
+          "customsDataLineItems": "For international shipments, please fill in the customs tariff number, country of origin, customs options and unit",
+          "shippingServicesInfo": "It is possible to change the shipping method for normal shipments when creating the label.\n"
+        },
+        "label": {
+          "recipientData": "Recipient data",
+          "senderAddress": "Return address",
+          "shippingData": "Shipment data",
+          "senderData": "Sender details",
+          "customsData": "Customs data",
+          "orderData": "Order details",
+          "packageData": "Package data",
+          "packageNumber": "Parcel number",
+          "duplicate": "Duplicate",
+          "documentType": "Document Type",
+          "documentNumber": "Document number",
+          "quantity": "Crowd",
+          "phone": "phone",
+          "shipperAddress": "delivery address",
+          "returnAddress": "return address",
+          "labelType": "Label type",
+          "title": "Addresses",
+          "displayName": "display name",
+          "defaultAddress": "Default address",
+          "eoriNumber": "Eori number",
+          "salutation": "Salutation",
+          "company": "company",
+          "department": "Department",
+          "firstName": "First name",
+          "lastName": "Last name",
+          "street": "Street",
+          "city": "City",
+          "zipcode": "Postcode",
+          "phoneNumber": "phone",
+          "addressType": "Address type",
+          "bankData": "Bank details",
+          "salesChannel": "Sales channel",
+          "additionalAddressLine1": "Address addition 1",
+          "additionalAddressLine2": "Address addition 2",
+          "create": "Create",
+          "show": "Show",
+          "email": "e-mail",
+          "currency": "currency",
+          "amountTotal": "Order total",
+          "shippingService": "Shipping product",
+          "country": "country",
+          "countryId": "country",
+          "accountHolder": "account owner",
+          "bic": "BIC",
+          "iban": "IBAN",
+          "customsDescription": "Customs description",
+          "returnOptions": "Return option",
+          "returnWays": "Return method"
+        },
+        "placeholder": {
+          "shipperAddress": "Select shipping address...",
+          "returnAddress": "Select return address...",
+          "email": "enter an email...",
+          "labelType": "select a label type...",
+          "displayName": "e.g. company main address",
+          "eoriNumber": "e.g. AT123456789012345",
+          "salutation": "Select salutation...",
+          "company": "e.g. model company",
+          "department": "e.g. sample department",
+          "firstName": "e.g. Max",
+          "lastName": "e.g. Mustermann",
+          "street": "e.g. Musterstrasse 15",
+          "city": "e.g. model city",
+          "phone": "Enter phone number...",
+          "country": "Choose country...",
+          "countryId": "Choose country...",
+          "zipcode": "e.g. 1111",
+          "phoneNumber": "e.g. 0800/1234567",
+          "addressType": "select an address type...",
+          "bankData": "Select bank details...",
+          "salesChannel": "Select sales channel...",
+          "additionalAddressLine1": "Enter additional address 1...",
+          "additionalAddressLine2": "Enter additional address 2...",
+          "currency": "select a currency...",
+          "amountTotal": "Enter order total...",
+          "shippingService": "Select shipping product...",
+          "accountHolder": "Enter account holder...",
+          "bic": "Enter BIC...",
+          "iban": "Enter IBAN...",
+          "customsDescription": "Enter customs description...",
+          "returnOptions": "Select return option...",
+          "returnWays": "Select return method..."
+        },
+        "createTitle": "Create shipping documents",
+        "messages": {
+          "errorCreatingLabel": "Error creating label",
+          "creatingLabel": "Label is created",
+          "successCreatingLabel": "Label created successfully.",
+          "errorFetchingBulkOrder": "Order data could not be loaded."
+        },
+        "error": {
+          "noShippingServiceLanguage": "Please enter a shipping product in the selected language in the shipping method."
+        }
+      },
+      "returnData": {
+        "returnNote": "Returns info",
+        "returnReason": "Reason for return",
+        "noReturnsFound": "No returns found.",
+        "columns": {
+          "productNumber": "Product number",
+          "name": "Product name",
+          "quantity": "Return quantity",
+          "unitPrice": "Unit price (as of order date)"
+        }
+      }
+    },
+    "dailyStatement": {
+      "createTitle": "Download daily closing",
+      "list": {
+        "plcDateAdded": "Added on",
+        "plcCreatedOn": "Created on",
+        "salesChannel": "Sales channel",
+        "pdfData": "End of the day",
+        "create": "Create",
+        "title": "End of the day"
+      },
+      "messages": {
+        "errorCreatingStatement": "Error creating the daily closing",
+        "successCreating": "Daily closing created, download will start shortly",
+        "successNoData": "No data available for the current day",
+        "missingValues": "Please fill out all fields"
+      },
+      "modal": {
+        "placeholder": {
+          "statementDate": "e.g. December 12, 2022",
+          "salesChannel": "Select sales channel..."
+        },
+        "label": {
+          "statementDate": "Date",
+          "salesChannel": "Sales channel"
+        },
+        "helpText": {
+          "statementDate": "If no date is filled in, a new daily closing will be created for today",
+          "info": "Notice",
+          "creationInfo": "Please note that the daily closing can only be triggered once per day. "
+        }
+      }
+    },
+    "bulkLabel": {
+      "modalTitle": "Bulk label creation",
+      "columns": {
+        "orderNumber": "Order number",
+        "targetCountry": "Destination Country",
+        "deliveryState": "Current shipping status",
+        "customsInformation": "Customs information entered",
+        "savedLabel": "Label saved"
+      },
+      "context-menu": {
+        "createLabel": "Create/edit label"
+      },
+      "label": {
+        "deliveryState": "New shipping status (optional)",
+        "saveLabel": "Save",
+        "notCreatedLabels": "Uncreated/incorrect labels",
+        "createdLabels": "Created labels"
+      },
+      "placeholder": {
+        "deliveryState": "Please select a shipping status..."
+      },
+      "messages": {
+        "missingFields": "Please fill out all fields.",
+        "noLabelsGenerated": "Please generate at least one label...",
+        "creatingLabel": "Labels are created...",
+        "downloadStartingSoon": "Download will start soon",
+        "errorDownloading": "Error downloading labels",
+        "failedTransitions": "A status change was not possible for the following orders: {orderNumbers}"
+      }
+    },
+    "mergedLabel": {
+      "label": {
+        "chosenOrders": "Selected orders",
+        "generatedLabels": "Labels exported to following orders"
+      },
+      "list": {
+        "orderNumber": "Order number",
+        "orderDateTime": "Order time",
+        "targetCountry": "Destination Country",
+        "labelTypes": "Label types"
+      },
+      "messages": {
+        "downloadStartingSoon": "Download will start soon",
+        "errorDownloading": "Error downloading labels",
+        "noLabelsFound": "No labels found..."
+      },
+      "modalTitle": "Download existing labels"
+    }
+  }
+}

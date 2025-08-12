@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="PostLabelCenter\Core\Content\ReturnReasons\ReturnReasonsDefinition">
+            <tag name="shopware.entity.definition" entity="plc_return_reasons"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\ReturnReasons\Translated\ReturnReasonsTranslatedDefinition">
+            <tag name="shopware.entity.definition" entity="plc_return_reasons_translation"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\BankData\BankDataDefinition">
+            <tag name="shopware.entity.definition" entity="plc_bank_data"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\AddressData\AddressDataDefinition">
+            <tag name="shopware.entity.definition" entity="plc_address_data"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\ShippingServices\ShippingServicesDefinition">
+            <tag name="shopware.entity.definition" entity="plc_shipping_services"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\OrderLabels\OrderLabelsDefinition">
+            <tag name="shopware.entity.definition" entity="plc_order_labels"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\DailyStatements\DailyStatementsDefinition">
+            <tag name="shopware.entity.definition" entity="plc_daily_statements"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\OrderReturnData\OrderReturnDataDefinition">
+            <tag name="shopware.entity.definition" entity="plc_order_return_data"/>
+        </service>
+
+        <service id="PostLabelCenter\Core\Content\Aggregate\ShippingServiceCountryDefinition">
+            <tag name="shopware.entity.definition" entity="plc_shipping_service_country"/>
+        </service>
+    </services>
+</container>

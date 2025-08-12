@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Plugin Configuration</title>
+        <title lang="de-DE">Plugin Konfiguration</title>
+        <input-field type="bool">
+            <name>enableTestMode</name>
+            <label>Testmodus aktivieren?</label>
+        </input-field>
+        <input-field type="bool">
+            <name>branchServiceActive</name>
+            <label lang="de-DE">Branch Service aktivieren?</label>
+            <label lang="de-AT">Branch Service aktivieren?</label>
+            <label lang="en-GB">Activate Branch Service?</label>
+
+            <helpText lang="de-DE">Mit dieser Option kann die Anzeige der Auswahl für Wunsch-Postfiliale,
+                Wunsch-Abholstation, Wunsch-Hermes PaketShop im Frontend aktiviert oder deaktiviert werden.
+            </helpText>
+            <helpText lang="de-AT">Mit dieser Option kann die Anzeige der Auswahl für Wunsch-Postfiliale,
+                Wunsch-Abholstation, Wunsch-Hermes PaketShop im Frontend aktiviert oder deaktiviert werden.
+            </helpText>
+            <helpText lang="en-GB">This options allows to enable/disable the selection of a post office station for
+                delivery from the shop frontend.
+            </helpText>
+            <defaultValue><![CDATA[true]]></defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>mapVisibility</name>
+            <label lang="de-DE">Karten-Sichtbarkeit</label>
+            <label lang="de-AT">Karten-Sichtbarkeit</label>
+            <label lang="en-GB">Map-Visibility</label>
+
+            <helpText lang="de-DE">Wenn Ja ausgewählt wurde, wird zusätzlich eine Karte angezeigt</helpText>
+            <helpText lang="de-AT">Wenn Ja ausgewählt wurde, wird zusätzlich eine Karte angezeigt</helpText>
+            <helpText lang="en-GB">If Yes is selected, a map will be shown</helpText>
+
+            <options>
+                <option>
+                    <id>yes</id>
+                    <name lang="de-DE">Ja</name>
+                    <name lang="de-AT">Ja</name>
+                    <name lang="en-GB">Yes</name>
+                </option>
+                <option>
+                    <id>no</id>
+                    <name lang="de-DE">Nein</name>
+                    <name lang="de-AT">Nein</name>
+                    <name lang="en-GB">No</name>
+                </option>
+            </options>
+            <defaultValue>yes</defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>disableAutomaticLabel</name>
+            <label lang="de-DE">Deaktiviere automatische Labelerstellung bei Lieferstatus-Wechsel?</label>
+            <label lang="de-AT">Deaktiviere automatische Labelerstellung bei Lieferstatus-Wechsel?</label>
+            <label lang="en-GB">Disable Automatic Label creation when delivery status is changed?</label>
+            <helpText lang="de-DE">Wird der Lieferstatus auf Versendet gesetzt, wird das Label nicht automatisch
+                generiert
+            </helpText>
+            <helpText lang="de-AT">Wird der Lieferstatus auf Versendet gesetzt, wird das Label nicht automatisch
+                generiert
+            </helpText>
+            <helpText lang="en-GB">If delivery status is set to shipped, the label will not automatically be generated
+            </helpText>
+
+            <defaultValue><![CDATA[false]]></defaultValue>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>defaultLabelType</name>
+            <label lang="de-DE">Etikettentyp</label>
+            <label lang="de-AT">Etikettentyp</label>
+            <label lang="en-GB">Label Type</label>
+
+            <helpText lang="de-DE">Generiert automatisch das ausgewählte Etikett, wenn der Lieferstatus einer Bestellung
+                auf
+                "Versandt" geändert wird.
+            </helpText>
+            <helpText lang="de-AT">Generiert automatisch das ausgewählte Etikett, wenn der Lieferstatus einer Bestellung
+                auf
+                "Versandt" geändert wird.
+            </helpText>
+            <helpText lang="en-GB">
+            </helpText>
+
+            <options>
+                <option>
+                    <id>shipping_label</id>
+                    <name lang="de-DE">Versandlabel</name>
+                    <name lang="de-AT">Versandlabel</name>
+                    <name lang="en-GB">Shipping label</name>
+                </option>
+                <option>
+                    <id>return_label</id>
+                    <name lang="de-DE">Retourenlabel</name>
+                    <name lang="de-AT">Retourenlabel</name>
+                    <name lang="en-GB">Return label</name>
+                </option>
+                <option>
+                    <id>both</id>
+                    <name lang="de-DE">Versand- und Retourenlabel generieren</name>
+                    <name lang="de-AT">Versand- und Retourenlabel generieren</name>
+                    <name lang="en-GB">Generate Shipping- and Return Label</name>
+                </option>
+            </options>
+            <defaultValue><![CDATA[shipping_label]]></defaultValue>
+        </input-field>
+        <input-field type="single-select">
+            <name>paperLayout</name>
+            <label lang="de-DE">Papierformat</label>
+            <label lang="de-AT">Papierformat</label>
+            <label lang="en-GB">Paper format</label>
+            <options>
+                <option>
+                    <id>A4</id>
+                    <name lang="de-DE">A4</name>
+                    <name lang="de-AT">A4</name>
+                    <name lang="en-GB">A4</name>
+                </option>
+                <option>
+                    <id>A5</id>
+                    <name lang="de-DE">A5</name>
+                    <name lang="de-AT">A5</name>
+                    <name lang="en-GB">A5</name>
+                </option>
+                <option>
+                    <id>2xA5inA4</id>
+                    <name lang="de-DE">2xA5 auf A4</name>
+                    <name lang="de-AT">2xA5 auf A4</name>
+                    <name lang="en-GB">2xA5 on A4</name>
+                </option>
+                <option>
+                    <id>100x150</id>
+                    <name>100x150</name>
+                </option>
+                <option>
+                    <id>100x200</id>
+                    <name>100x200</name>
+                </option>
+            </options>
+            <defaultValue><![CDATA[A5]]></defaultValue>
+        </input-field>
+        <input-field type="single-select">
+            <name>labelFormat</name>
+            <label lang="de-DE">Labelformat</label>
+            <label lang="de-AT">Labelformat</label>
+            <label lang="en-GB">Labelformat</label>
+            <options>
+                <option>
+                    <id>100x150</id>
+                    <name>100x150</name>
+                </option>
+                <option>
+                    <id>100x200</id>
+                    <name>100x200</name>
+                </option>
+            </options>
+            <defaultValue><![CDATA[100x200]]></defaultValue>
+        </input-field>
+        <input-field type="bool">
+            <name>onlyDataimport</name>
+            <label>Nur Datenimport (ohne PDF)</label>
+            <helpText lang="de-DE">Aktivierung dieser Option überträgt Postlabel Daten an das PLC Backend ohne, dass das
+                resultierende Label (PDF) in den Shop zurückimportiert wird
+            </helpText>
+            <helpText lang="de-AT">Aktivierung dieser Option überträgt Postlabel Daten an das PLC Backend ohne, dass das
+                resultierende Label (PDF) in den Shop zurückimportiert wird
+            </helpText>
+            <helpText lang="en-GB">Aktivierung dieser Option überträgt Postlabel Daten an das PLC Backend ohne, dass das
+                resultierende Label (PDF) in den Shop zurückimportiert wird
+            </helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>enableCustomerReturns</name>
+            <label>Retouren im Frontend aktivieren</label>
+        </input-field>
+        <input-field type="int">
+            <name>returnDateRange</name>
+            <label>Retourenzeitraum</label>
+            <defaultValue><![CDATA[30]]></defaultValue>
+        </input-field>
+        <component name="sw-entity-multi-id-select">
+            <name>returnReasons</name>
+            <entity>plc_return_reasons</entity>
+            <label>Rückgabegründe</label>
+        </component>
+        <!--        <component name="config-delivery-state">-->
+        <!--            <name>deliveryStates</name>-->
+        <!--            <entity>state_machine_state</entity>-->
+        <!--            <label lang="en-GB">Delivery state for automatic Label-Generation</label>-->
+        <!--            <label lang="de-DE">Versandstatus für automatische Label-Erstellung</label>-->
+        <!--            <label lang="de-AT">Versandstatus für automatische Label-Erstellung</label>-->
+        <!--            <placeholder lang="en-GB">Leave empty or choose an order state...</placeholder>-->
+        <!--            <placeholder lang="de-DE">Leer lassen oder einen Versandstatus auswählen...</placeholder>-->
+        <!--            <placeholder lang="de-AT">Leer lassen oder einen Versandstatus auswählen...</placeholder>-->
+        <!--        </component>-->
+        <input-field type="text">
+            <name>postTrackingUrl</name>
+            <label lang="en-GB">Post Tracking Url</label>
+            <label lang="de-DE">Trackinglink der Post</label>
+            <label lang="de-AT">Trackinglink der Post</label>
+            <placeholder lang="en-GB">Insert the post tracking url...</placeholder>
+            <placeholder lang="de-DE">Post Trackinglink eingeben...</placeholder>
+            <placeholder lang="de-AT">Post Trackinglink eingeben...</placeholder>
+            <defaultValue><![CDATA[https://www.post.at/s/sendungsdetails?snr=]]></defaultValue>
+        </input-field>
+    </card>
+    <card>
+        <title>Live - PLC Credentials</title>
+        <title lang="de-DE">Live - PLC Konfiguration</title>
+        <input-field>
+            <name>liveClientId</name>
+            <label>Live Client ID</label>
+            <label lang="de-DE">Live Client ID</label>
+        </input-field>
+        <input-field>
+            <name>liveOrgUnitId</name>
+            <label>Live OrgUnitId</label>
+            <label lang="de-DE">Live OrgUnitId</label>
+        </input-field>
+        <input-field>
+            <name>liveOrgUnitGUID</name>
+            <label>Live OrgUnitGUID</label>
+            <label lang="de-DE">Live OrgUnitGUID</label>
+        </input-field>
+    </card>
+    <card>
+        <title>Test - PLC Credentials</title>
+        <title lang="de-DE">Test - PLC Konfiguration</title>
+        <input-field>
+            <name>testClientId</name>
+            <label>Test Client ID</label>
+            <label lang="de-DE">Test Client ID</label>
+        </input-field>
+        <input-field>
+            <name>testOrgUnitId</name>
+            <label>Test OrgUnitId</label>
+            <label lang="de-DE">Test OrgUnitId</label>
+        </input-field>
+        <input-field>
+            <name>testOrgUnitGUID</name>
+            <label>Test OrgUnitGUID</label>
+            <label lang="de-DE">Test OrgUnitGUID</label>
+        </input-field>
+    </card>
+</config>

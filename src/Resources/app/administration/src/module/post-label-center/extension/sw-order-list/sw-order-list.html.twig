@@ -1,0 +1,23 @@
+{% block sw_order_list_bulk_selected_actions_content_bulk_edit %}
+    {% parent %}
+
+    <a class="link link-primary" @click="openBulkLabelModal">
+        {{ $tc('plc.order.labels.bulkLabel') }}
+    </a>
+    <bulk-label-modal
+            v-if="showBulkLabelModal"
+            @modal-save="saveBulkLabelModal"
+            @modal-close="closeBulkLabelModal"
+            :order-list="showBulkLabelModal">
+    </bulk-label-modal>
+
+    <a class="link link-primary" @click="openMergedLabelModal">
+        {{ $tc('plc.order.labels.mergedLabel') }}
+    </a>
+    <merged-label-modal
+            v-if="showMergedLabelModal"
+            @modal-save="saveMergedLabelModal"
+            @modal-close="closeMergedLabelModal"
+            :order-list="showMergedLabelModal">
+    </merged-label-modal>
+{% endblock %}

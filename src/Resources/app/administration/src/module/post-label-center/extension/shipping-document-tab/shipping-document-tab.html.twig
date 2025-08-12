@@ -1,0 +1,112 @@
+{% block plc_shipping_document_details %}
+    <sw-card :title="$tc('plc.order.page.documentListTitle')" class="shipping-document-list"
+             position-identifier="shipping-document-tab">
+        <sw-loader
+                v-if="isLoading"
+        />
+        <template #default v-if="total > 0 && !isLoading">
+            {% block post_label_entries %}
+                <sw-entity-listing
+                        :columns="orderLabelsColumns"
+                        :items="postLabelEntries"
+                        :show-actions="true"
+                        :sort-by="sortBy"
+                        :full-page="false"
+                        :show-selection="false"
+                        :sort-direction="sortDirection"
+                        :is-loading="isLoading"
+                        :allow-column-edit="false"
+                        :allow-inline-edit="false"
+                        :disable-data-fetching="true"
+                        :repository="orderLabelsRepository"
+                        :page="page"
+                        :limit="limit"
+                        @page-change="onPageChange"
+                        @update-records="updateTotal">
+
+                    <template #column-createdAt="{ item }">
+                        {{ formatDate(item.createdAt) }}
+                    </template>
+
+                    <template #column-name="{ item }">
+                        <a @click="getLabelPdf(item)" target="_blank">
+                                <span v-if="item.name != 'RETURN_LABEL'">
+                                      {{ $tc('plc.order.postLabels.shippingLabel') }}
+                                </span>
+                            <span v-else>{{ $tc('plc.order.postLabels.returnLabel') }}</span>
+                        </a>
+                    </template>
+
+                    <template #column-shippingDocuments="{ item }">
+                        <a v-if="item.shippingDocuments" @click="getLabelPdf(item, true)" target="_blank">
+                            {{ $tc('plc.order.postLabels.shippingDocuments') }}
+                        </a>
+                        <span v-else></span>
+                    </template>
+
+                    <template #column-atTrackingNumber="{ item }">
+                            <span v-if="item.atTrackingNumber && jsonDecode(item.atTrackingNumber).length > 0">
+                                <a v-for="trackingNumber in jsonDecode(item.atTrackingNumber)"
+                                   @click="openTrackingUrl(trackingNumber)" class="" target="_blank">
+                                    {{ trackingNumber }}
+                                </a>
+                            </span>
+                        <span v-else></span>
+                    </template>
+
+                    <template #column-intTrackingNumber="{ item }">
+                            <span v-if="item.intTrackingNumber && jsonDecode(item.intTrackingNumber).length > 0">
+                                <a v-for="trackingNumber in jsonDecode(item.intTrackingNumber)"
+                                   @click="openTrackingUrl(trackingNumber)" class="" target="_blank">
+                                    {{ trackingNumber }}
+                                </a>
+                            </span>
+                        <span v-else></span>
+                    </template>
+
+                    <template #column-downloaded="{ item }">
+                        <div v-if="feature.isActive('v6.6.0.0')">
+                            <mt-icon v-if="item.downloaded == true" name="regular-checkmark-xs" small/>
+                            <mt-icon v-else name="regular-times-xs" small/>
+                        </div>
+                        <div v-else>
+                            <sw-icon v-if="item.downloaded == true" name="regular-checkmark-xs" small/>
+                            <sw-icon v-else name="regular-times-xs" small/>
+                        </div>
+
+                    </template>
+
+                    <template #actions="{ item }">
+                        <sw-context-menu-item
+                                variant="danger"
+                                class="plc-address-data-list__context-menu-edit-delete"
+                                @click="cancelShipment(item.id)"
+                        >
+                            {{ $tc('plc.general.context-menu.delete') }}
+                        </sw-context-menu-item>
+                    </template>
+                </sw-entity-listing>
+            {% endblock %}
+        </template>
+
+        <template #footer>
+            <div class="create-button-row">
+                <a class="btn btn-primary" target="_blank">
+                    <sw-button variant="primary" :disabled="isLoading"
+                               @click="openCreateModal()">
+                        {{ $tc('plc.order.postLabels.generateAdditionalDocuments') }}
+                    </sw-button>
+                </a>
+
+                <shipping-label-create-modal
+                        class="plc-shipping-label-modal"
+                        v-if="showCreationModal"
+                        :order-id="orderId"
+                        :is-bulk="false"
+                        @modal-save="saveCreateModal"
+                        @modal-close="closeCreateModal">
+                </shipping-label-create-modal>
+            </div>
+        </template>
+    </sw-card>
+{% endblock %}

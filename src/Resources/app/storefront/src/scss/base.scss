@@ -1,0 +1,170 @@
+@import 'leaflet/leaflet.scss';
+
+#map {
+  height: 500px;
+  width: auto;
+  @media screen and (max-width: 767px) {
+    height: 300px;
+  }
+}
+
+#searchBranchButton {
+  padding: 5px 15px;
+}
+
+#searchBranchesModal {
+  .modal-dialog {
+    max-width: 850px;
+    @media screen and (max-width: 991px) {
+      max-width: 700px;
+    }
+
+    @media screen and (max-width: 767px) {
+      max-width: 500px;
+    }
+  }
+
+  .leaflet-control, .leaflet-control * {
+    font-size: 10px;
+  }
+}
+
+.singleBranch {
+  border-top: 1px solid rgba(0, 0, 0, .125);
+}
+
+#searchBranchInput {
+  border-radius: 25px 0 0 25px !important;
+  max-width: 80%;
+  height: 50px
+}
+
+#branchList {
+  max-height: 500px;
+  overflow-y: scroll;
+  @media screen and (max-width: 767px) {
+    height: 300px;
+  }
+
+  button {
+    color: #00a0d2;
+  }
+}
+
+#branchModalContent {
+  display: none;
+
+  &:first-of-type(div) {
+    padding-right: 10px;
+  }
+}
+
+#searchBranchesModalTitle {
+  .modal-header {
+    button {
+      span {
+        font-size: 23px;
+      }
+    }
+  }
+}
+
+#choosePostfiliale {
+  border-radius: 0 25px 25px 0 !important;
+  width: 20% !important;
+
+  @media screen and (min-width: 576px) and (max-width: 768px) {
+    width: 30% !important;
+  }
+
+  @media screen and (min-width: 300px) and (max-width: 575px) {
+    width: 40% !important;
+  }
+}
+
+.selectDeliveryStation {
+  background: none;
+  border: none;
+
+  &:focus, &:hover {
+    outline: none;
+  }
+}
+
+.selectDeliveryStationIcon {
+  padding-left: 0;
+  background: none;
+  border: none;
+
+  &:focus, &:hover {
+    outline: none;
+  }
+}
+
+.account-orders {
+  .order-history-return-btn {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 0;
+    display: inline-flex;
+  }
+}
+
+div[id^="returnOrder"]{
+  .order-detail-content {
+    .plc-return-order-form{
+      padding: 20px;
+      .return-order-line-items {
+        margin-bottom: 30px;
+
+        .return-order-headline{
+          display: grid;
+          grid-template-columns: 50px 2fr 1fr 0.5fr;
+          align-items: center;
+          border-bottom: 1px solid #bcc1c7;
+          padding-bottom: 10px;
+
+          .return-order-item-info, .return-order-quantity-info, .return-order-product-number{
+            justify-self: left;
+            font-weight: bold;
+          }
+        }
+
+        .return-order-lineItem {
+          display: grid;
+          grid-template-columns: 50px 2fr 1fr 0.5fr;
+          align-items: center;
+          margin-top: 15px;
+
+          .product-info {
+            display: grid;
+            grid-template-columns: 70% 30%;
+            align-items: center;
+
+            .return-order-product-img{
+              max-height: 55px;
+            }
+          }
+
+          .custom-select{
+            justify-self: center;
+          }
+        }
+      }
+
+      .custom-select{
+        max-width: fit-content;
+      }
+
+      .return-form-footer{
+        display: grid;
+        grid-template-columns: 1fr 50%;
+
+        .return-form-buttons{
+          justify-self: end;
+        }
+      }
+    }
+  }
+}

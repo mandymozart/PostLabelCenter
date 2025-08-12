@@ -1,0 +1,23 @@
+.order-return-card{
+  .info-fields{
+    display:grid;
+    grid-template-columns: 70% 30%;
+
+    .return-note{
+      padding-right: 25px;
+    }
+
+    .return-note, .return-reason{
+      padding-bottom: 15px;
+
+      h4{
+        font-weight: 700;
+        border-bottom: 1px solid #d1d9e0;
+      }
+
+      span{
+        overflow-wrap: break-word;
+      }
+    }
+  }
+}

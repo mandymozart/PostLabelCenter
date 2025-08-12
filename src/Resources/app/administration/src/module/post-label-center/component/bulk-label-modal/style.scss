@@ -1,0 +1,29 @@
+.plc-bulk-label-modal {
+  &.sw-modal {
+    .sw-modal__dialog {
+      max-width: 50%;
+
+      @media screen and (max-width: 1400px) {
+        max-width: 90%;
+      }
+    }
+  }
+
+  .shipping-label__select-labelType {
+    display: grid;
+    grid-template-columns: 100px 250px;
+    margin-bottom: 0;
+    align-items: center;
+
+    .sw-field__label {
+      margin-bottom: 0;
+      font-weight: 700;
+    }
+  }
+
+  .datagrid-headline {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-decoration: underline;
+  }
+}

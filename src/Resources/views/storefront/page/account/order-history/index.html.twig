@@ -1,0 +1,10 @@
+{% sw_extends '@Storefront/storefront/page/account/order-history/index.html.twig' %}
+
+{% block page_account_orders_table_body %}
+    {% for order in page.orders %}
+        <div class="order-table" id="accountOrderCollapse-{{ order.id }}"
+             data-order-detail-loader="true">
+            {% sw_include '@Storefront/storefront/page/account/order-history/order-item.html.twig' %}
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,69 @@
+<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+<!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+{% block plc_daily_statement__modal %}
+    <sw-modal
+            class="plc-daily-statement-modal"
+            :title="modalTitle"
+            variant="large"
+            @modal-close="$emit('modal-close')"
+    >
+        {% block plc_daily_statement__modal_body %}
+            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
+            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <template v-else>
+                <sw-entity-single-select
+                        v-model:value="salesChannelId"
+                        class="shipping-service__sales-channel-select"
+                        entity="sales_channel"
+                        name="shipping-service-salutation"
+                        :label="$tc('plc.dailyStatement.modal.label.salesChannel')"
+                        :placeholder="$tc('plc.dailyStatement.modal.placeholder.salesChannel')"
+                        :criteria="salesChannelCriteria"
+                        label-property="name"
+                        validation="required"
+                        required
+                />
+
+                <sw-datepicker
+                        v-model:value="statementDate"
+                        type="date"
+                        :config="datePickerConfig"
+                        name="statementDate"
+                        :helpText="$tc('plc.dailyStatement.modal.helpText.statementDate')"
+                        :label="$tc('plc.dailyStatement.modal.label.statementDate')"
+                        :placeholderText="$tc('plc.dailyStatement.modal.placeholder.statementDate')"
+                />
+                <sw-text class="help-text">
+                    <p class="alert-warning bold">{{ $tc('plc.dailyStatement.modal.helpText.info') }}</p>
+                    <p class="alert-warning">{{ $tc('plc.dailyStatement.modal.helpText.creationInfo') }}</p>
+                </sw-text>
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_daily_statement__modal_footer %}
+            <template #modal-footer>
+                {% block plc_daily_statement__modal_footer_close_button %}
+                    <sw-button
+                            size="small"
+                            @click="closeModal"
+                    >
+                        {{ $tc('global.sw-modal.labelClose') }}
+                    </sw-button>
+                {% endblock %}
+
+                {% block plc_daily_statement__modal_footer_create_button %}
+                    <sw-button
+                            variant="primary"
+                            size="small"
+                            :disabled="isLoading"
+                            @click="sendRequest"
+                    >
+                        <span v-if="statementDate">{{ $tc('plc.modal.download') }}</span>
+                        <span v-else>{{ $tc('plc.modal.generate') }}</span>
+                    </sw-button>
+                {% endblock %}
+            </template>
+        {% endblock %}
+    </sw-modal>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/confirm-address.html.twig' %}
+
+{% block page_checkout_confirm_address_shipping_actions %}
+    {{ parent() }}
+
+    {% set dataBsTargetAttr = "data-bs-target" %}
+    {% set dataBsToggleAttr = "data-bs-toggle" %}
+
+    {% if config('PostLabelCenter.config.branchServiceActive') and (page.wunschfilialeAvailable is defined and page.wunschfilialeAvailable == true) %}
+        <div class="mt-3">
+            <button id="searchBranchButton" class="btn btn-primary" {{ dataBsToggleAttr }}="modal"
+            {{ dataBsTargetAttr }}="#searchBranchesModal"
+            data-branch="{{ page.thirdPartyID }}">{{ "plc.wunschfiliale.chooseStation"|trans|sw_sanitize }}
+            </button>
+        </div>
+
+        <div class="modal fade" id="searchBranchesModal" tabindex="-1" role="dialog"
+             aria-labelledby="searchBranchesModalTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"
+                            id="searchBranchesModalTitle">{{ "plc.wunschfiliale.chooseStation"|trans|sw_sanitize }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input type="search" name="searchBranchInput" id="searchBranchInput"
+                                           class="form-control"
+                                           placeholder="{{ "plc.wunschfiliale.enterZipcode"|trans|sw_sanitize }}"/>
+                                    <button id="choosePostfiliale" type="button" class="btn btn-primary"
+                                            data-post-wunschfiliale="true">{{ "plc.wunschfiliale.search"|trans|sw_sanitize }}
+                                        <i class="fas fa-search ps-2"></i>
+                                    </button>
+                                    <div class="spinner-container" style="justify-content: center; align-items: center; display: none;
+                                                    position: fixed; width: 100%; height: 100%; background-color: rgb(0, 0, 0, 0.4); z-index: 2000;
+                                                    left: 0; top: 0;">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="branchModalContent">
+                            <div
+                                class="col-12 {% if config("PostLabelCenter.config.mapVisibility") == true %}col-md-6{% endif %}">
+                                <div id="branchList" class="row mt-3"></div>
+                            </div>
+                            {% if config("PostLabelCenter.config.mapVisibility") == "yes" %}
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div id="map"></div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <input type="hidden" name="customerId" value="{{ context.customer.id }}">
+                        <input type="hidden" id="mapVisibility" name="mapVisibility"
+                               value="{{ config("PostLabelCenter.config.mapVisibility") }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function triggerBranchButton(element) {
+                let branchButton = document.querySelector('[data-branch-id="' + element.dataset.branchButton + '"]')
+                if (branchButton != null) {
+                    branchButton.click();
+                }
+            }
+        </script>
+        <script>
+            window.wunschfiliale = {
+                chooseStation: '{{ 'plc.wunschfiliale.chooseStation'|trans|e('js') }}',
+                openingHours: '{{ 'plc.wunschfiliale.openingHours'|trans|e('js') }}'
+            };
+        </script>
+    {% endif %}
+{% endblock %}

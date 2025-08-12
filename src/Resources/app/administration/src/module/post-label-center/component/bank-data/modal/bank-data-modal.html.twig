@@ -1,0 +1,76 @@
+{% block plc_return_reason__modal %}
+    <sw-modal
+            class="plc-return-reasons-modal"
+            :title="modalTitle"
+            variant="small"
+            @modal-close="$emit('modal-close')"
+    >
+        {% block plc_return_reason__modal_body %}
+            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
+            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <template v-else>
+                <sw-text-field
+                        class="plc-bank-data-modal_displayName"
+                        size="small"
+                        v-model:value="bankDataObject.displayName"
+                        name="bank-data-displayName"
+                        :label="$tc('plc.bankData.label.displayName')"
+                        :placeholder="$tc('plc.bankData.placeholder.displayName')"
+                />
+
+                <sw-text-field
+                        class="plc-bank-data-modal_accountHolder"
+                        size="small"
+                        v-model:value="bankDataObject.accountHolder"
+                        name="bank-data-accountHolder"
+                        :label="$tc('plc.bankData.label.accountHolder')"
+                        :placeholder="$tc('plc.bankData.placeholder.accountHolder')"
+                />
+
+                <sw-text-field
+                        class="plc-bank-data-modal_bic"
+                        size="small"
+                        v-model:value="bankDataObject.bic"
+                        name="bank-data-bic"
+                        :label="$tc('plc.bankData.label.bic')"
+                        :placeholder="$tc('plc.bankData.placeholder.bic')"
+                />
+
+                <sw-text-field
+                        class="plc-bank-data-modal_iban"
+                        size="small"
+                        v-model:value="bankDataObject.iban"
+                        :isInvalid="!isValidIban(bankDataObject.iban)"
+                        name="bank-data-iban"
+                        :label="$tc('plc.bankData.label.iban')"
+                        :placeholder="$tc('plc.bankData.placeholder.iban')"
+                />
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_return_reason__modal_footer %}
+            <template #modal-footer>
+                {% block plc_return_reason__modal_footer_close_button %}
+                    <sw-button
+                            size="small"
+                            @click="$emit('modal-close')"
+                    >
+                        {{ $tc('global.sw-modal.labelClose') }}
+                    </sw-button>
+                {% endblock %}
+
+                {% block plc_return_reason__modal_footer_save_button %}
+                    <sw-button
+                            variant="primary"
+                            size="small"
+                            :disabled="!isValidIban(bankDataObject.iban) || !bankDataObject.iban"
+                            @click="saveBankData"
+                    >
+                        {{ $tc('plc.modal.save') }}
+                    </sw-button>
+                {% endblock %}
+            </template>
+        {% endblock %}
+    </sw-modal>
+{% endblock %}

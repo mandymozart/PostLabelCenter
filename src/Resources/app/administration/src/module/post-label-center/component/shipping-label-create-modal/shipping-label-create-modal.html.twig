@@ -1,0 +1,843 @@
+<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+<!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+{% block plc_shipping_label__modal %}
+    <sw-modal
+            class="plc-shipping-label-modal"
+            :title="modalTitle"
+            variant="large"
+            @modal-close="$emit('modal-close')"
+    >
+        {% block plc_shipping_label__modal_body %}
+            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
+            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <div v-else>
+                <template>
+                    <sw-tabs position-identifier="shipping-label-create-modal">
+                        <sw-tabs-item
+                                name="shippingData"
+                                :active="activeTab === 'shippingData'"
+                                @click="activeTab = 'shippingData'">
+                            {{ $tc('plc.order.postLabels.label.shippingData') }}
+                        </sw-tabs-item>
+                        <sw-tabs-item
+                                name="senderData"
+                                @click="activeTab = 'senderData'"
+                                :active="activeTab === 'senderData'">
+                            {{ $tc('plc.order.postLabels.label.senderData') }}
+                        </sw-tabs-item>
+                        <sw-tabs-item
+                                name="customsData"
+                                @click="activeTab = 'customsData'"
+                                :active="activeTab === 'customsData'">
+                            {{ $tc('plc.order.postLabels.label.customsData') }}
+                        </sw-tabs-item>
+                    </sw-tabs>
+                </template>
+
+                <template>
+                    <div v-if="activeTab === 'shippingData' && deliveryAddress">
+                        <template>
+                            <div class="shipping-data-container">
+                                <div class="grid-wrapper">
+                                    <div class="grid-headline">
+                                        {{ $tc('plc.order.postLabels.label.recipientData') }}
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_email"
+                                                size="small"
+                                                v-model:value="orderData.orderCustomer.email"
+                                                name="post-label-email"
+                                                :label="$tc('plc.order.postLabels.label.email')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.email')"
+                                                validation="required"
+                                                required
+                                        />
+                                        <sw-entity-single-select
+                                                v-model:value="deliveryAddress.shippingOrderAddress.salutationId"
+                                                class="post-label__salutation-select"
+                                                entity="salutation"
+                                                name="post-label-salutation"
+                                                :label="$tc('plc.order.postLabels.label.salutation')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.salutation')"
+                                                :criteria="salutationCriteria"
+                                                label-property="displayName"
+                                                show-clearable-button
+                                                validation="required"
+                                                size="small"
+                                                required
+                                        />
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_firstName"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.firstName"
+                                                name="post-label-firstName"
+                                                :label="$tc('plc.order.postLabels.label.firstName')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.firstName')"
+                                                validation="required"
+                                                required
+                                        />
+
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_lastName"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.lastName"
+                                                name="post-label-lastName"
+                                                :label="$tc('plc.order.postLabels.label.lastName')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.lastName')"
+                                                validation="required"
+                                                required
+                                        />
+                                    </div>
+
+                                    <div class="grid-row">
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_company"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.company"
+                                                name="post-label-company"
+                                                :label="$tc('plc.order.postLabels.label.company')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.company')"
+                                        />
+
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_department"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.department"
+                                                name="post-label-department"
+                                                :label="$tc('plc.order.postLabels.label.department')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.department')"
+                                        />
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_street"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.street"
+                                                name="post-label-street"
+                                                :label="$tc('plc.order.postLabels.label.street')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.street')"
+                                                validation="required"
+                                                maxlength="50"
+                                                required
+                                        />
+
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_city"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.city"
+                                                name="post-label-city"
+                                                :label="$tc('plc.order.postLabels.label.city')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.city')"
+                                                validation="required"
+                                                required
+                                        />
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_zipcode"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.zipcode"
+                                                name="post-label-zipcode"
+                                                :label="$tc('plc.order.postLabels.label.zipcode')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.zipcode')"
+                                                validation="required"
+                                                required
+                                        />
+
+                                        <sw-entity-single-select
+                                                v-model:value="deliveryAddress.shippingOrderAddress.countryId"
+                                                class="post-label__country-select"
+                                                size="small"
+                                                entity="country"
+                                                name="post-label-country"
+                                                :label="$tc('plc.order.postLabels.label.country')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.country')"
+                                                :criteria="countryCriteria"
+                                                label-property="name"
+                                                show-clearable-button
+                                                validation="required"
+                                                required
+                                        />
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_additionalAddressLine1"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.additionalAddressLine1"
+                                                name="post-label-additionalAddressLine1"
+                                                :label="$tc('plc.order.postLabels.label.additionalAddressLine1')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.additionalAddressLine1')"
+                                        />
+
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_additionalAddressLine2"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.additionalAddressLine2"
+                                                name="post-label-additionalAddressLine2"
+                                                :label="$tc('plc.order.postLabels.label.additionalAddressLine2')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.additionalAddressLine2')"
+                                        />
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-text-field
+                                                class="plc-shipping-label-modal_phone"
+                                                size="small"
+                                                v-model:value="deliveryAddress.shippingOrderAddress.phone"
+                                                name="post-label-phone"
+                                                :helpText="$tc('plc.order.postLabels.helpText.phone')"
+                                                :label="$tc('plc.order.postLabels.label.phone')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.phone')"
+                                                :required="getThirdPartyId()"
+                                        />
+                                    </div>
+                                    <hr>
+                                    <div class="grid-headline">
+                                        {{ $tc('plc.order.postLabels.label.orderData') }}
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-number-field
+                                                class="plc-shipping-label-modal_amountTotal"
+                                                size="small"
+                                                v-model:value="orderData.amountTotal"
+                                                name="post-label-amountTotal"
+                                                :label="$tc('plc.order.postLabels.label.amountTotal')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.amountTotal')"
+                                                validation="required"
+                                                required
+                                                numberType="float"
+                                        />
+
+                                        <sw-entity-single-select
+                                                v-model:value="orderData.currencyId"
+                                                class="post-label__currency-select"
+                                                size="small"
+                                                entity="currency"
+                                                name="post-label-currencyId"
+                                                :label="$tc('plc.order.postLabels.label.currency')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.currency')"
+                                                :criteria="currencyCriteria"
+                                                label-property="name"
+                                                show-clearable-button
+                                                validation="required"
+                                                required
+                                        />
+                                    </div>
+                                    <hr>
+                                    <div class="grid-headline">
+                                        {{ $tc('plc.order.postLabels.label.packageData') }}
+                                    </div>
+                                    <div class="grid-row full-width">
+                                        <sw-entity-single-select
+                                                v-if="feature.isActive('v6.6.0.0') && enableShippingProductChange"
+                                                v-model:value="shippingProductId"
+                                                class="plc-shipping-label-modal_shippingService"
+                                                entity="plc_shipping_services"
+                                                name="shippingService"
+                                                :helpText="$tc('plc.order.postLabels.helpText.shippingServicesInfo')"
+                                                :label="$tc('plc.order.postLabels.label.shippingService')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.shippingService')"
+                                                :criteria="shippingServiceCriteria"
+                                                label-property="displayName"
+                                                validation="required"
+                                                size="small"
+                                                required
+                                                @update:value="getPlcShippingServiceData"
+                                                show-clearable-button
+                                        />
+
+                                        <sw-entity-single-select
+                                                v-if="!feature.isActive('v6.6.0.0') && enableShippingProductChange"
+                                                v-model:value="shippingProductId"
+                                                class="plc-shipping-label-modal_shippingService"
+                                                entity="plc_shipping_services"
+                                                name="shippingService"
+                                                :helpText="$tc('plc.order.postLabels.helpText.shippingServicesInfo')"
+                                                :label="$tc('plc.order.postLabels.label.shippingService')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.shippingService')"
+                                                :criteria="shippingServiceCriteria"
+                                                label-property="displayName"
+                                                validation="required"
+                                                size="small"
+                                                required
+                                                @change="getPlcShippingServiceData"
+                                                show-clearable-button
+                                        />
+
+                                        <sw-text-field
+                                                v-if="shipperAddress && shippingService && !enableShippingProductChange"
+                                                class="plc-shipping-label-modal_shippingService"
+                                                size="small"
+                                                :label="$tc('plc.order.postLabels.label.shippingService')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.shippingService')"
+                                                validation="required"
+                                                :helpText="$tc('plc.order.postLabels.helpText.shippingServicesInfo')"
+                                                disabled="disabled"
+                                                v-model:value="shippingService.displayName"
+                                                required
+                                        />
+                                    </div>
+                                    <div class="grid-row full-width">
+                                        <sw-data-grid
+                                                identifier="data-grid-items"
+                                                class="line-item-data-grid"
+                                                :showSelection="false"
+                                                :compactMode="true"
+                                                :allowInlineEdit="true"
+                                                :allowColumnEdit="true"
+                                                :dataSource="lineItems"
+                                                :show-actions="true"
+                                                :columns="lineItemColumns">
+
+                                            <template #column-packageNumber="{ item, currentValue, isInlineEdit }">
+                                                <sw-number-field
+                                                        v-if="isInlineEdit"
+                                                        numberType="int"
+                                                        :min="1" :max="null" :digits="0"
+                                                        v-model:value="item.packageNumber"
+                                                />
+                                                <span v-else>{{ item.packageNumber }}</span>
+                                            </template>
+
+                                            <template #column-hsTariffNumber="{ item, isInlineEdit }">
+                                                <sw-text-field
+                                                        v-if="isInlineEdit"
+                                                        v-model:value="item.hsTariffNumber"
+                                                        key="string"
+                                                        minlength="6"
+                                                        maxlength="10"
+                                                />
+                                                <span v-else>{{ item.hsTariffNumber }}</span>
+                                            </template>
+
+                                            <template #column-customsOptions="{ item, isInlineEdit }">
+                                                <sw-single-select
+                                                        v-if="isInlineEdit"
+                                                        v-model:value="item.customsOptions"
+                                                        :options="getCustomsOptions"
+                                                ></sw-single-select>
+                                                <span v-else>{{ item.customsOptions != null ? displayOptionValue(item.customsOptions, customsOptions) : "" }}</span>
+                                            </template>
+
+                                            <template #column-units="{ item, isInlineEdit }">
+                                                <sw-single-select
+                                                        v-if="isInlineEdit"
+                                                        v-model:value="item.units"
+                                                        :options="getUnitOptions"
+                                                ></sw-single-select>
+                                                <span v-else>{{ item.units != null ? displayOptionValue(item.units, unitOptions) : "" }}</span>
+                                            </template>
+
+                                            <template #column-countryOfOrigin="{ item, isInlineEdit }">
+                                                <sw-entity-single-select
+                                                        v-model:value="item.countryOfOrigin"
+                                                        class="post-label__country-select"
+                                                        size="small"
+                                                        entity="country"
+                                                        name="post-label-country"
+                                                        :placeholder="$tc('plc.order.postLabels.placeholder.countryId')"
+                                                        :criteria="countryCriteria"
+                                                        label-property="name"
+                                                        show-clearable-button
+                                                        validation="required"
+                                                        required
+                                                />
+                                            </template>
+
+                                            <template #column-unitPrice="{ item }">
+                                                <span>{{ item.unitPrice }}</span>
+                                            </template>
+
+                                            <template #actions="{ item }">
+                                                <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+                                                <sw-context-menu-item @click="duplicateEntry(item)"
+                                                                      v-if="item.quantity > 1">
+                                                    {{ $tc('plc.order.postLabels.label.duplicate') }}
+                                                </sw-context-menu-item>
+
+                                                <sw-context-menu-item
+                                                        variant="danger"
+                                                        @click="onEntryDelete(item)">
+                                                    {{ $tc('sw-product.variations.generatedListContextMenuDelete') }}
+                                                </sw-context-menu-item>
+                                            </template>
+
+                                            <template #customSettings>
+                                                <sw-help-text
+                                                        :text="$tc('plc.order.postLabels.helpText.customsDataLineItems')"
+                                                        :width="200" tooltipPosition="left" :showDelay="100"
+                                                        :hideDelay="100">
+                                                </sw-help-text>
+                                            </template>
+                                        </sw-data-grid>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div v-if="activeTab === 'senderData'">
+                        <template>
+                            <div class="sender-data-container">
+                                <div class="grid-wrapper">
+                                    <div class="grid-headline">
+                                        {{ $tc('plc.order.postLabels.label.senderAddress') }}
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-entity-single-select
+                                                v-model:value="shipperAddressId"
+                                                class="shipper_address-select"
+                                                entity="plc_address_data"
+                                                name="shipperAddress"
+                                                :label="$tc('plc.order.postLabels.label.shipperAddress')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.shipperAddress')"
+                                                :criteria="shipperAddressesCriteria"
+                                                label-property="displayName"
+                                                validation="required"
+                                                size="small"
+                                                required
+                                                show-clearable-button
+                                                @update:value="getShippingAddress"
+                                        />
+                                        <sw-entity-single-select
+                                                v-if="shipperAddress"
+                                                v-model:value="shipperAddress.salutationId"
+                                                class="plc-shipping-label-modal_shippingService"
+                                                entity="salutation"
+                                                name="post-label-salutation"
+                                                :label="$tc('plc.order.postLabels.label.salutation')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.salutation')"
+                                                :criteria="salutationCriteria"
+                                                label-property="displayName"
+                                                show-clearable-button
+                                                validation="required"
+                                                size="small"
+                                                required
+                                        />
+                                    </div>
+                                    <div v-if="shipperAddress">
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.eoriNumber"
+                                                    :label="$tc('plc.order.postLabels.label.eoriNumber')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.eoriNumber')"
+                                            />
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.phoneNumber"
+                                                    :label="$tc('plc.order.postLabels.label.phoneNumber')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.phoneNumber')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.company"
+                                                    :label="$tc('plc.order.postLabels.label.company')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.company')"
+                                            />
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.department"
+                                                    :label="$tc('plc.order.postLabels.label.department')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.department')"
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.firstName"
+                                                    :label="$tc('plc.order.postLabels.label.firstName')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.firstName')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.lastName"
+                                                    :label="$tc('plc.order.postLabels.label.lastName')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.lastName')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.street"
+                                                    :label="$tc('plc.order.postLabels.label.street')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.street')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.city"
+                                                    :label="$tc('plc.order.postLabels.label.city')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.city')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="shipperAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="shipperAddress.zipcode"
+                                                    :label="$tc('plc.order.postLabels.label.zipcode')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.zipcode')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                            <sw-entity-single-select
+                                                    v-if="shipperAddress"
+                                                    v-model:value="shipperAddress.countryId"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    entity="country"
+                                                    name="post-label-country"
+                                                    :label="$tc('plc.order.postLabels.label.countryId')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.countryId')"
+                                                    :criteria="countryCriteria"
+                                                    label-property="name"
+                                                    show-clearable-button
+                                                    validation="required"
+                                                    @update:value="getCountryData(shipperAddress)"
+                                                    required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="grid-headline">
+                                        {{ $tc('plc.order.postLabels.label.bankData') }}
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-entity-single-select
+                                                v-model:value="bankDataId"
+                                                class="shipping-service__sales--select"
+                                                entity="plc_bank_data"
+                                                :label="$tc('plc.order.postLabels.label.bankData')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.bankData')"
+                                                :criteria="bankDataCriteria"
+                                                label-property="displayName"
+                                                validation="required"
+                                                size="small"
+                                                @update:value="getBankData"
+                                        />
+                                        <sw-text-field
+                                                v-if="bankData"
+                                                class="plc-shipping-label-modal_shippingService"
+                                                size="small"
+                                                v-model:value="bankData.accountHolder"
+                                                :label="$tc('plc.order.postLabels.label.accountHolder')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.accountHolder')"
+                                        />
+                                    </div>
+                                    <div v-if="bankData">
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="bankData"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    :isInvalid="!isValidIban(bankData.iban)"
+                                                    v-model:value="bankData.iban"
+                                                    :label="$tc('plc.order.postLabels.label.iban')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.iban')"
+                                                    @keyup="isValidIban"
+                                                    validation="required"
+                                                    required
+                                            />
+                                            <sw-text-field
+                                                    v-if="bankData"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="bankData.bic"
+                                                    :label="$tc('plc.order.postLabels.label.bic')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.bic')"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="grid-headline">
+                                        {{ $tc('plc.order.postLabels.label.returnAddress') }}
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-entity-single-select
+                                                v-model:value="returnAddressId"
+                                                class="shipping-service__sales-channel-select"
+                                                entity="plc_address_data"
+                                                :label="$tc('plc.order.postLabels.label.returnAddress')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.returnAddress')"
+                                                :criteria="returnAddressesCriteria"
+                                                label-property="displayName"
+                                                validation="required"
+                                                @update:value="getReturnAddress"
+                                                size="small"
+                                                required
+                                        />
+                                        <sw-text-field
+                                                v-if="returnAddress"
+                                                class="plc-shipping-label-modal_shippingService"
+                                                size="small"
+                                                v-model:value="returnAddress.street"
+                                                name="post-label-shippingService"
+                                                :label="$tc('plc.order.postLabels.label.street')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.street')"
+                                                validation="required"
+                                                required
+                                        />
+                                    </div>
+                                    <div v-if="returnAddress">
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.eoriNumber"
+                                                    :label="$tc('plc.order.postLabels.label.eoriNumber')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.eoriNumber')"
+                                            />
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.phoneNumber"
+                                                    :label="$tc('plc.order.postLabels.label.phoneNumber')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.phoneNumber')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.company"
+                                                    :label="$tc('plc.order.postLabels.label.company')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.company')"
+                                            />
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.department"
+                                                    :label="$tc('plc.order.postLabels.label.department')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.department')"
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.firstName"
+                                                    :label="$tc('plc.order.postLabels.label.firstName')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.firstName')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.lastName"
+                                                    :label="$tc('plc.order.postLabels.label.lastName')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.lastName')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.street"
+                                                    :label="$tc('plc.order.postLabels.label.street')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.street')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.city"
+                                                    :label="$tc('plc.order.postLabels.label.city')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.city')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                        </div>
+                                        <div class="grid-row">
+                                            <sw-text-field
+                                                    v-if="returnAddress"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    v-model:value="returnAddress.zipcode"
+                                                    :label="$tc('plc.order.postLabels.label.zipcode')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.zipcode')"
+                                                    validation="required"
+                                                    required
+                                            />
+                                            <sw-entity-single-select
+                                                    v-if="returnAddress"
+                                                    v-model:value="returnAddress.countryId"
+                                                    class="plc-shipping-label-modal_shippingService"
+                                                    size="small"
+                                                    entity="country"
+                                                    name="post-label-country"
+                                                    :label="$tc('plc.order.postLabels.label.countryId')"
+                                                    :placeholder="$tc('plc.order.postLabels.placeholder.countryId')"
+                                                    :criteria="countryCriteria"
+                                                    label-property="name"
+                                                    show-clearable-button
+                                                    validation="required"
+                                                    @update:value="getCountryData(returnAddress)"
+                                                    required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </template>
+                    </div>
+
+                    <div v-if="activeTab === 'customsData'">
+                        <template>
+                            <div class="customs-container">
+                                <div class="grid-wrapper">
+                                    <div class="grid-row full-width">
+                                        <sw-textarea-field
+                                                type="textarea"
+                                                v-model:value="customsData.description"
+                                                :label="$tc('plc.order.postLabels.label.customsDescription')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.customsDescription')"
+                                        />
+                                    </div>
+                                    <div class="grid-row">
+                                        <sw-single-select
+                                                :options="getReturnOptions"
+                                                size="small"
+                                                v-model:value="customsData.returnOption"
+                                                :label="$tc('plc.order.postLabels.label.returnOptions')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.returnOptions')"
+                                                validation="required"
+                                        />
+                                        <sw-single-select
+                                                :options="getReturnWays"
+                                                size="small"
+                                                v-model:value="customsData.shippingType"
+                                                :label="$tc('plc.order.postLabels.label.returnWays')"
+                                                :placeholder="$tc('plc.order.postLabels.placeholder.returnWays')"
+                                                validation="required"
+                                        />
+                                    </div>
+                                    <div class="grid-row full-width">
+                                        <sw-data-grid
+                                                :columns="customsColumns"
+                                                :showSelection="false"
+                                                :dataSource="customsData.packages"
+                                                :compactMode="true"
+                                                :allowInlineEdit="true"
+                                                :allowColumnEdit="true"
+                                                :show-actions="true"
+                                        >
+                                            <template #column-documentType="{ item, isInlineEdit }">
+                                                <sw-single-select
+                                                        v-if="isInlineEdit"
+                                                        v-model:value="item.documentType"
+                                                        :options="getShipmentDocumentEntries"
+                                                ></sw-single-select>
+                                                <span v-else>{{ item.documentType != null ? displayOptionValue(item.documentType, shipmentDocumentEntries) : "" }}</span>
+                                            </template>
+
+                                            <template #customSettings>
+                                                <sw-button @click="addCustomsColumn" variant="primary" :square="true"
+                                                           :isLoading="false">
+                                                    <mt-icon v-if="feature.isActive('v6.6.0.0')"
+                                                             name="regular-plus-circle-s" small/>
+                                                    <sw-icon v-else name="regular-plus-circle-s" small/>
+                                                </sw-button>
+                                            </template>
+
+                                            <template #actions="{ item }">
+                                                <sw-context-menu-item
+                                                        variant="danger"
+                                                        @click="onDeletePackage(item)">
+                                                    {{ $tc('sw-product.variations.generatedListContextMenuDelete') }}
+                                                </sw-context-menu-item>
+                                            </template>
+                                        </sw-data-grid>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </template>
+                    </div>
+                </template>
+            </div>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_shipping_label__modal_footer %}
+            <template #modal-footer>
+                {% block plc_shipping_label__modal_footer_select_labeltype %}
+                    <sw-single-select
+                            v-if="!isLoading && !isBulk"
+                            class="shipping-label__select-labelType"
+                            :options="getLabelTypeOptions"
+                            v-model:value="selectedLabelType"
+                            size="small"
+                            name="shipping-label-labelType"
+                            :label="$tc('plc.order.postLabels.label.labelType')"
+                            :placeholder="$tc('plc.order.postLabels.placeholder.labelType')"
+                            validation="required"
+                    />
+                {% endblock %}
+
+                {% block plc_shipping_label__modal_footer_save_button %}
+                    <sw-button
+                            v-if="isBulk"
+                            variant="primary"
+                            size="small"
+                            @click="saveShippingLabelData"
+                            :disabled="!deliveryAddress || !returnAddress || !shipperAddress || !shippingService || !lineItems || !orderData || !bankData || isLoading"
+                    >
+                        {{ $tc('plc.bulkLabel.label.saveLabel') }}
+                    </sw-button>
+                    <sw-button
+                            v-else
+                            variant="primary"
+                            size="small"
+                            @click="createShippingLabel"
+                            :disabled="!deliveryAddress || !selectedLabelType || !returnAddress || !shipperAddress || !shippingService || !lineItems || !orderData || isLoading || !isValidIban()"
+                    >
+                        {{ $tc('plc.modal.createLabel') }}
+                    </sw-button>
+                {% endblock %}
+            </template>
+        {% endblock %}
+    </sw-modal>
+{% endblock %}

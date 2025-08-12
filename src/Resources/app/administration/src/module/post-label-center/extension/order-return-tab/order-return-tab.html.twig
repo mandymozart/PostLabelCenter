@@ -1,0 +1,57 @@
+{% block plc_order_return_tab %}
+    <div class="plc-order-return">
+        <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"></mt-loader>
+        <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+
+        <sw-card position-identifier="order-return-tab" :title="$tc('plc.order.page.returnDataTitle')"
+                 class="order-return-card" v-else>
+            <template v-if="orderReturnData && orderId && lineItems.length > 0">
+                <div class="info-fields">
+                    <div class="return-note">
+                        <h4>{{ $tc('plc.order.returnData.returnNote') }}</h4>
+                        <span>{{ orderReturnData.returnNote }}</span>
+                    </div>
+                    <div class="return-reason">
+                        <h4>{{ $tc('plc.order.returnData.returnReason') }}</h4>
+                        <span>{{ orderReturnData.returnReason.translated ? orderReturnData.returnReason.translated.name : orderReturnData.returnReason.name }}</span>
+                    </div>
+                </div>
+                <div class="line-items-grid">
+                    <sw-data-grid
+                            :dataSource="lineItems"
+                            :columns="lineItemColumns"
+                            :showSelection="false"
+                            :showActions="false">
+                        <template #column-productNumber="{ item }">
+                            <sw-context-menu-item
+                                    class="sw-order-list__order-view-action"
+                                    :router-link="{ name: 'sw.product.detail', params: { id: item.product.id } }"
+                            >
+                                {{ item.product.productNumber }}
+                            </sw-context-menu-item>
+                        </template>
+
+                        <template #column-name="{ item }">
+                            <span>{{ item.label ?? item.product.translated.name }}</span>
+                        </template>
+
+                        <template #column-unitPrice="{ item }">
+                            <span>{{ item.unitPrice | currency("EUR") }}</span>
+                        </template>
+                    </sw-data-grid>
+                </div>
+            </template>
+            <template v-else>
+                <sw-empty-state
+                        :title="$tc('plc.order.returnData.noReturnsFound')"
+                        :absolute="false"
+                        :subline="''"
+                >
+                    <template #icon>
+                        <img :src="assetFilter('/administration/static/img/empty-states/order-empty-state.svg')">
+                    </template>
+                </sw-empty-state>
+            </template>
+        </sw-card>
+    </div>
+{% endblock %}

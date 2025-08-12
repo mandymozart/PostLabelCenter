@@ -1,0 +1,120 @@
+<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+<!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+{% block plc_shipping_service__modal %}
+    <sw-modal
+            class="plc-shipping-service-modal"
+            :title="modalTitle"
+            variant="large"
+            @modal-close="$emit('modal-close')"
+    >
+        {% block plc_shipping_service__modal_body %}
+            <mt-loader v-if="isLoading && feature.isActive('v6.6.0.0')"/>
+            <sw-loader v-if="isLoading && !feature.isActive('v6.6.0.0')"/>
+            <template v-else>
+                <sw-text-field
+                        class="plc-shipping-service-modal_displayName"
+                        size="small"
+                        v-model:value="displayName"
+                        name="shipping-service-displayName"
+                        :label="$tc('plc.shippingServices.label.displayName')"
+                        :placeholder="$tc('plc.shippingServices.placeholder.displayName')"
+                        validation="required"
+                        required
+                />
+
+                <sw-entity-single-select
+                        v-model:value="salesChannelId"
+                        class="shipping-service__sales-channel-select"
+                        entity="sales_channel"
+                        name="shipping-service-salutation"
+                        :label="$tc('plc.shippingServices.label.salesChannel')"
+                        :placeholder="$tc('plc.shippingServices.placeholder.salesChannel')"
+                        :criteria="salesChannelCriteria"
+                        label-property="name"
+                        validation="required"
+                        size="small"
+                        required
+                />
+
+                <sw-entity-multi-select
+                        v-if="salesChannelId != null && feature.isActive('v6.6.0.0')"
+                        :entity-collection="countries"
+                        class="shipping-service__country-select"
+                        :criteria="countryCriteria"
+                        name="shipping-service-country"
+                        :label="$tc('plc.shippingServices.label.country')"
+                        :placeholder="$tc('plc.shippingServices.placeholder.country')"
+                        @update:entity-collection="onChange"
+                        show-clearable-button
+                        validation="required"
+                        required
+                />
+
+                <sw-entity-multi-select
+                        v-if="salesChannelId != null && !feature.isActive('v6.6.0.0')"
+                        v-model:value="countries"
+                        class="shipping-service__country-select"
+                        entity-name="country"
+                        name="shipping-service-country"
+                        :label="$tc('plc.shippingServices.label.country')"
+                        :placeholder="$tc('plc.shippingServices.placeholder.country')"
+                        :criteria="countryCriteria"
+                        @change="updateAvailableServices"
+                        show-clearable-button
+                        validation="required"
+                        required
+                />
+
+                <sw-single-select
+                        v-if="shippingServices && serviceOptions && countries.length > 0"
+                        v-model:value="selectedService"
+                        class="sw-bulk-edit-change-type__selection"
+                        :options="shippingServicesOptions"
+                        name="shipping-service-addressType"
+                        :label="$tc('plc.shippingServices.label.service')"
+                        :placeholder="$tc('plc.shippingServices.placeholder.service')"
+                        validation="required"
+                        @change="updateFeatureList"
+                        size="small"
+                        required
+                />
+
+                <sw-multi-select
+                        v-if="selectedService != null && shippingFeatures"
+                        :label="$tc('plc.shippingServices.label.features')"
+                        :placeholder="$tc('plc.shippingServices.placeholder.features')"
+                        v-model:value="selectedFeatures"
+                        :options="shippingFeaturesOptions"
+                        name="shipping-service-features"
+                        class="plc-shipping-features__select"
+                        value="">
+                </sw-multi-select>
+            </template>
+        {% endblock %}
+
+        <!-- eslint-disable-next-line sw-deprecation-rules/no-twigjs-blocks -->
+        {% block plc_shipping_service__modal_footer %}
+            <template #modal-footer>
+                {% block plc_shipping_service__modal_footer_close_button %}
+                    <sw-button
+                            size="small"
+                            @click="$emit('modal-close')"
+                    >
+                        {{ $tc('global.sw-modal.labelClose') }}
+                    </sw-button>
+                {% endblock %}
+
+                {% block plc_shipping_service__modal_footer_save_button %}
+                    <sw-button
+                            variant="primary"
+                            size="small"
+                            @click="checkShippingFeatures"
+                            :disabled="isLoading"
+                    >
+                        {{ $tc('plc.modal.save') }}
+                    </sw-button>
+                {% endblock %}
+            </template>
+        {% endblock %}
+    </sw-modal>
+{% endblock %}

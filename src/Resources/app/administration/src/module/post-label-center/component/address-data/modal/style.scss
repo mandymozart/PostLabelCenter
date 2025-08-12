@@ -1,0 +1,12 @@
+.plc-return-reasons-modal {
+  .plc-return-reasons-modal_name {
+    margin-bottom: 15px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 15px;
+    margin-bottom: 10px;
+  }
+}
